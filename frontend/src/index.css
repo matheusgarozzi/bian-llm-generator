@@ -13,3 +13,104 @@ main {
   margin: 0 auto;
   padding: 2rem 1.5rem;
 }
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.mensagens {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 8px;
+}
+
+.mensagem {
+  max-width: 85%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+}
+
+.mensagem p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mensagem-user {
+  align-self: flex-end;
+  background: color-mix(in srgb, #2563eb 18%, transparent);
+}
+
+.mensagem-assistant {
+  align-self: flex-start;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.raciocinio {
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.raciocinio summary {
+  cursor: pointer;
+}
+
+.vazio,
+.pensando {
+  margin: auto 0;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.pensando {
+  margin: 0;
+  text-align: left;
+}
+
+.erro {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  color: #b91c1c;
+  background: color-mix(in srgb, #dc2626 12%, transparent);
+}
+
+.entrada {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.entrada textarea {
+  font: inherit;
+  padding: 0.6rem;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.acoes button {
+  font: inherit;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.acoes button:disabled {
+  cursor: not-allowed;
+}

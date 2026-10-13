@@ -16,6 +16,10 @@ module.exports = [
       globals: {
         console: 'readonly',
         process: 'readonly',
+        AbortController: 'readonly',
+        AbortSignal: 'readonly',
+        fetch: 'readonly',
+        Response: 'readonly',
       },
     },
     plugins: {
