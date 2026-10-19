@@ -114,3 +114,289 @@ main {
 .acoes button:disabled {
   cursor: not-allowed;
 }
+
+.abas {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.abas button {
+  font: inherit;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.abas button[aria-pressed='true'] {
+  background: color-mix(in srgb, #2563eb 18%, transparent);
+  border-color: #2563eb;
+}
+
+.gerador {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.legenda {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.grupo legend {
+  padding: 0 0.25rem;
+  font-weight: 600;
+}
+
+.service-domain {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.service-domain input {
+  margin-top: 0.25rem;
+}
+
+.service-domain small {
+  display: block;
+  opacity: 0.75;
+}
+
+.service-domain.indisponivel {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nome-pt {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.opcao {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.restricao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.restricao select,
+.restricao input,
+.restricao button {
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+}
+
+.restricao input {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.erro p,
+.erro ul,
+.resultado p,
+.resultado ol {
+  margin: 0;
+}
+
+.erro ul,
+.resultado ol {
+  padding-left: 1.25rem;
+  margin-top: 0.35rem;
+}
+
+.resultado {
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, #16a34a 12%, transparent);
+}
+
+.resultado details {
+  margin-top: 0.5rem;
+}
+
+.resultado pre {
+  overflow-x: auto;
+  font-size: 0.8rem;
+}
+
+main.largo {
+  max-width: 1280px;
+}
+
+.tela-gerador {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .tela-gerador {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  /* O prompt acompanha a rolagem da seleção. */
+  .painel-prompt {
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+}
+
+.painel-prompt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 8px;
+}
+
+.painel-prompt header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.painel-prompt h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.painel-prompt header .legenda {
+  margin-left: auto;
+}
+
+.painel-prompt header button {
+  font: inherit;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bloco h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+}
+
+.bloco-id {
+  font-family: ui-monospace, monospace;
+  padding: 0 0.35rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, #2563eb 18%, transparent);
+}
+
+.papel {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: normal;
+  opacity: 0.6;
+}
+
+.bloco pre {
+  margin: 0;
+  padding: 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.bloco details pre {
+  max-height: 24rem;
+  overflow-y: auto;
+  margin-top: 0.35rem;
+}
+
+
+
+.com-tooltip {
+  position: relative;
+  border-radius: 6px;
+}
+
+.com-tooltip:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  width: max-content;
+  max-width: min(26rem, 90vw);
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #f8fafc;
+  background: #1e293b;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 25%);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 120ms;
+  pointer-events: none;
+}
+
+.com-tooltip:hover > .tooltip,
+.com-tooltip:focus-within > .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.selo {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.sem-detalhe summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.selos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.selos .selo {
+  margin: 0;
+  padding: 0.15rem 0.5rem;
+  opacity: 0.6;
+  cursor: help;
+}

@@ -1,0 +1,102 @@
+# Domain card gerado por backend/scripts/condensar-catalogo.ts a partir de oas3/PaymentRail.yaml.
+# Não edite à mão: rode "npm run catalogo:condensar" no backend.
+service_domain: PaymentRail
+control_record: PaymentRailOperatingSession
+descricao: This Service Domain handles the operational interface with payment service providers, formatting outbound transactions and onward routing inbound transactions during scheduled operating sessions. It also links to holding account facilities for net payment handling
+arquivo_origem: PaymentRail.yaml
+versao_bian: 14.0.0
+commit_bian: b58bf4c2c300dd018afc084e9bb24b7adaaa3500
+behaviour_qualifiers: [ InboundTransaction, OutboundTransaction, PaymentAccountReconciliation, PaymentClearingandSettlement ]
+schemas:
+  PaymentRail#/components/schemas/PaymentRailOperatingSession:
+    descricao: Operate equipment and/or a largely automated facility within Payment Rail Operations.
+    campos:
+      PaymentRailOperatingSessionSchedule: Schedule
+      PaymentRailOperatingSessionStatus: Status
+      PaymentRailOperatingSessionUsageLog: Log
+      PaymentRailOperatingSessionAssociatedPartyReference: Involvedparty
+      PaymentRailOperatingSessionServiceProviderReference: Involvedparty
+      PaymentRailOperatingSessionType: Sessiontype
+      PaymentRailOperatingSessionServiceProviderSchedule: Schedule
+      PaymentRailOperatingSessionServiceType: Servicetype
+      PaymentRailOperatingSessionServiceConfiguration: SystemConfigurationOption
+      PaymentRailOperatingSessionReference: Session
+  PaymentRail#/components/schemas/Schedule:
+    descricao: The schedule and timing of the function
+    campos:
+      ScheduleType: string(Text)
+  PaymentRail#/components/schemas/Status:
+    campos:
+      StatusReason: string(Text) — Specifies the reasons for the status.
+      StatusDateTime: Datetime
+      StatusValidityPeriod: Datetimeperiod
+      StatusInvolvedPartyReference: Involvedparty
+  PaymentRail#/components/schemas/Log:
+    descricao: Reference to the log of (usage) ativities/events of Payment Rail Operating Session
+    campos:
+      LogType: string(Text)
+      LogPeriod: Datetimeperiod
+      LogDate: Datetime
+      LogIdentification: Identifier
+  PaymentRail#/components/schemas/Involvedparty:
+    descricao: Reference to an entity that assigns and manages the identification. tReference to the organization or agency that issued the identifier (e.g., DMV, Passport Office).
+    campos:
+      PartyReference: string(Text) — Reference to a Party who plays a specific role
+      InvolvementReference: string(Text) — Reference to a specific Role that is played by a Party
+  PaymentRail#/components/schemas/Sessiontype:
+    descricao: Specifies the classification of session like Customer Contact Session, Channel Operating Session, Device Operating Session, etc.
+    campos:
+      SessionTypeName: Name
+      SessionType: Sessiontypevalues
+  PaymentRail#/components/schemas/Servicetype:
+    descricao: A Classification value that distinguishes between the type of services within Payment Rail Operating Session
+    campos:
+      ServiceTypeName: Name
+      ServiceType: Servicetypevalues
+  PaymentRail#/components/schemas/SystemConfigurationOption:
+    descricao: The configuration of Payment Rail Operating Session
+    campos:
+      SystemConfigurationOption: string(Class) — Options for configuring the system or the function/feature of system.
+  PaymentRail#/components/schemas/Session:
+    descricao: Reference to Outbound Transaction Function
+    campos:
+      SessionDuration: Duration
+      SessionDateAndTime: Datetime
+      SessionStatus: Status
+      SessionType: Sessiontype
+      SessionScheduel: Schedule
+      SessionIdentification: Identifier
+  PaymentRail#/components/schemas/Datetime:
+    descricao: The date when the identifier became valid.
+    campos:
+      DateTimeContent: string(Text) — The particular date and time point in the progression of time
+      TimeZoneCode: string(Text) — The time zone to which the date time refers.
+      DaylightSavingIndicator: string(Text)
+      DateTimeType: Datetimetypevalues
+  PaymentRail#/components/schemas/Datetimeperiod:
+    descricao: The validity period of Condition
+    campos:
+      FromDateTime: Datetime
+      ToDateTime: Datetime
+  PaymentRail#/components/schemas/Identifier:
+    descricao: The identifier of Condition
+    campos:
+      IdentifierValue: string(Value) — tThe actual unique code or number (e.g., passport number, drivers license number).
+      IdentifierIssuerReference: Involvedparty
+      IdentifierStartDate: Datetime
+      IdentifierEndDate: Datetime
+  PaymentRail#/components/schemas/Name:
+    descricao: The name of Condition
+    campos:
+      Name: string(DataType) — A name is a word or phrase that constitutes the distinctive designation of a person, place, thing or concept. (UN/CEFAT)
+  PaymentRail#/components/schemas/Sessiontypevalues:
+    enum: [ ContactHandlingSession, CustomerDialogueSession, ChannelOperatingSession, GatewayOperatingSession, SwitchOperatingSession, DeviceOperatingSession, InterbankTransactionOperatingSession, CorrespondenceOperatingSession, InteractiveHelpOperatingSession, ACHOperatingSession ]
+  PaymentRail#/components/schemas/Servicetypevalues:
+    enum: [ ITService, AdministrativeService, SystemService, FinancialService, InformationService, BusinessService ]
+  PaymentRail#/components/schemas/Duration:
+    descricao: The time the session was active
+    campos:
+      Duration: string(DataType) — A duration is the specification of a length of time without a fixed start or end time, expressed in Gregorian calendar time units (Year, Month, Week, Day) and Hours, Minutes or Seconds. (UN/CEFACT)
+  PaymentRail#/components/schemas/Datetimetypevalues:
+    enum: [ MaturityDate, InitiatedDate, RequestedDate, ExecutedDate, OpenDate, CloseDate, ExpiryDate, EffectiveDate, CreatingDate, ActivationDate, DeactivationDate, BlockingDate, SendingDate, ValidFromDate, ValidToDate, ReceivingDate, SigningDate, DueDate, ValueDate, FulfillmentDate, EntryDate ]
+tipos_nao_expandidos: []

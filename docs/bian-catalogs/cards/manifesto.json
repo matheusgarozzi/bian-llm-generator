@@ -1,0 +1,32 @@
+{
+  "versaoBian": "14.0.0",
+  "commitBian": "b58bf4c2c300dd018afc084e9bb24b7adaaa3500",
+  "profundidadeMaxima": 3,
+  "cards": {
+    "PaymentOrderInitiation": {
+      "schemas": 110,
+      "naoExpandidos": 5,
+      "bytes": 50099
+    },
+    "PaymentRail": {
+      "schemas": 17,
+      "naoExpandidos": 0,
+      "bytes": 6070
+    },
+    "PartyReferenceDataDirectory": {
+      "schemas": 12,
+      "naoExpandidos": 1,
+      "bytes": 4260
+    },
+    "CurrentAccount": {
+      "schemas": 114,
+      "naoExpandidos": 0,
+      "bytes": 47056
+    },
+    "StandingOrder": {
+      "schemas": 93,
+      "naoExpandidos": 2,
+      "bytes": 41144
+    }
+  }
+}

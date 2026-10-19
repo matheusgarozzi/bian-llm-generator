@@ -139,6 +139,7 @@ porta 3000.
 | *"O LLM não respondeu em 120000 ms"* | A máquina está lenta ou o modelo ainda estava carregando. Aumente `LLM_TIMEOUT_MS` no `.env`. |
 | Respostas muito lentas | Modelos locais dependem do hardware. No LM Studio, ative a GPU (*GPU offload*) nas opções do modelo. |
 | Resposta cortada no meio de conversas longas | O contexto do modelo encheu. Aumente o *Context Length* nas opções de carregamento do modelo ou comece uma conversa nova. |
+| Geração do modelo formal falha ou corta com vários Service Domains | O prompt inclui os domain cards e passa de 30 mil tokens com os 4 pilotos (veja a tela "Gerar aplicação"). Carregue o modelo com *Context Length* de pelo menos 40000. |
 
 ### Como a integração funciona no código
 
@@ -160,6 +161,7 @@ porta 3000.
 | backend  | `npm run lint`  | Lint com ESLint                |
 | backend  | `npm test`      | Testes (LLM e chat contra servidor falso) |
 | backend  | `npm run llm:testar` | Teste real contra o LM Studio |
+| backend  | `npm run catalogo:condensar` | Regera os domain cards em `docs/bian-catalogs/cards` a partir dos YAMLs do BIAN |
 | frontend | `npm run dev`   | Servidor de dev (Vite)         |
 | frontend | `npm run build` | Build de produção              |
 | frontend | `npm run lint`  | Lint com oxlint                |

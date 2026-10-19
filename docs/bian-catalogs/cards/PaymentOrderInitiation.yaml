@@ -1,0 +1,710 @@
+# Domain card gerado por backend/scripts/condensar-catalogo.ts a partir de oas3/PaymentOrderInitiation.yaml.
+# Não edite à mão: rode "npm run catalogo:condensar" no backend.
+service_domain: PaymentOrderInitiation
+control_record: PaymentOrderInitiationTransaction
+descricao: This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and initiates the orchestration of the transaction. It provides support for repeating/scheduled payments.
+arquivo_origem: PaymentOrderInitiation.yaml
+versao_bian: 14.0.0
+commit_bian: b58bf4c2c300dd018afc084e9bb24b7adaaa3500
+behaviour_qualifiers: [ Compliance, Confirmation, OrderInitiation ]
+schemas:
+  PaymentOrderInitiation#/components/schemas/PaymentOrderInitiationTransaction:
+    descricao: Execute a well-bounded financial transaction/task, typically involving largely automated/structured fulfillment processing within Payment Initiation.
+    campos:
+      PaymentTransactionType: Transactiontypevalues
+      RecurringPaymentRecord: PaymentArrangement
+      RecurringPaymentCustomerReference: Involvedparty
+      RecurringPaymentReference: PaymentArrangement
+      CustomerReference: Involvedparty
+      PaymentTransaction: PaymentTransaction
+      PayerReference: Payer
+      PayerBankReference: PayerBank
+      PayerProductInstanceReference: ProductAgreement
+      PayeeReference: Payee
+      PayeeBankReference: PayeeBank
+      PayeeProductInstanceReference: ProductAgreement
+      Amount: Amount
+      Currency: Currencycode
+      DateType: Datetimetypevalues
+      Date: Datetime
+      PaymentFeesCharges: FeeArrangement
+      PaymentMechanism: Paymentmechanismtypevalues
+      PaymentPurpose: string(Text) — Details captured for reference and compliance reporting purposes
+      DocumentDirectoryEntryInstanceReference: DocumentDirectoryEntry
+      DocumentContent: string(Text) — The copy of the identification document used
+  PaymentOrderInitiation#/components/schemas/Transactiontypevalues:
+    enum: [ FinancialTransaction, BusinessTransaction, BankingTransaction, AccountingTransaction, BookingTransaction, AllocationTransaction, DeliveryTransaction, ProductionTransaction ]
+  PaymentOrderInitiation#/components/schemas/PaymentArrangement:
+    descricao: Details of the recurring payment. Can be used to pre-populate the payment request
+    campos:
+      ServiceType: Paymentservicetypevalues
+      PaymentDate: Paymentdatetime
+      PaymentPeriod: Datetimeperiod
+      PaymentPurpose: Paymentpurposevalues
+      PaymentAmountAndCurrency: Paymentamountandcurrency
+      PaymentMethod: Paymentmethodtypevalues
+      PaymentType: Paymenttypevalues
+      PaymentTime: Paymenttimevalues
+      RemittanceDeliveryMethod: Remittancedeliverymethodtypevalues
+      RemittanceLocation: Contactpoint
+      PaymentIdentification: Paymentidentification
+      PaymentSchedule: Schedule
+      PaymentFrequency: Frequency
+      PaymentDescription: "string(Text) — Payment reference (sometimes called remittance information or payment description) can appear at both debtor and creditor levels, but with slightly different roles: At the Debtor (Payer) Level The debtor provides the reference/narrative when initiating the payment. Purpose: to explain what the payment is for (e.g., Invoice 1234, August rent). This is usually optional, but very useful for reconciliation. At the Creditor (Payee) Level The same reference is transmitted along with the payment message and shown to the creditor when funds are received. Purpose: allows the creditor to match the payment to the correct invoice, order, or account."
+      ArrangementAction: Action
+      ArrangementStartDate: Datetime
+      ArrangementEndDate: Datetime
+      ArrangementStatus: Arrangementstatus
+      ArrangementSubjectMatter: Subject
+      Arrangementtype: Arrangementtypevalues
+      ArrangementIdentification: Identifier
+      FuneralPolicyArrangementType: Insurancearrangementtypevalues
+      InsuranceArrangementType: Insurancearrangementtypevalues
+      ProductArrangementType: Arrangementtypevalues
+      LoanOriginationDate: Date
+      LoanMaturityDate: Date
+      LoanEndDate: Date
+      LoanAmount: Amount
+      LoanArrangementType: Arrangementtypevalues
+      SavingsAccountArrangementType: Arrangementtypevalues
+      SavingsAccountArrangementProductFeatureType: Productfeaturetype
+      CurrentAccountArrangementType: Arrangementtypevalues
+      CurrentAccountArrangementProductFeatureType: Productfeaturetype
+      TermDepositArrangementType: Arrangementtypevalues
+      TermDepositArrangementProductFeatureType: Productfeaturetype
+      TermDepositMaturityDate: Datetime
+      TermDepositOpenDate: Datetime
+      TermDepositAmount: Amount
+      TermDepositDuration: Duration
+      DepositTerm: string(String) — The Period for which the TermDepositAmount needs ti stay deposited with the Bank
+      DepositType: Deposittypevalues
+      DepositLimit: Limitarrangement
+      DepositLimitType: string(Text) — Type of limit imposed on a deposit facility e.g. maximum amount per deposit or per periodThis is "the algorithm"
+      DepositAmount: Amount
+      DepositDatetime: Datetime
+      DepositDatetimeType: string
+      DepositAmountType: Amounttypevalues
+      DepositInterest: Interestarrangement
+      DepositDuration: Duration
+      DepositRate: Rate
+  PaymentOrderInitiation#/components/schemas/Involvedparty:
+    descricao: Reference to a Party who plays a specific role in the context of assigning a status.
+    campos:
+      PartyReference: string(Text) — Reference to a Party who plays a specific role
+      InvolvementReference: string(Text) — Reference to a specific Role that is played by a Party
+  PaymentOrderInitiation#/components/schemas/PaymentTransaction:
+    descricao: The details of the payment transaction
+    campos:
+      PaymentTransactionType: Paymenttypevalues
+      PaymentTransactionAmount: Amount
+      PaymentTransactionIdentification: Paymentidentification
+      PaymentTransactionUsedMechanism: string(Text) — The payment mechanism the bank decides to use in the transaction to execute a payment instruction
+      PaymentTransactionDatetime: Paymentdatetime
+      PaymentTransactionPurpose: Paymentpurposevalues
+      PaymentTransactionStatus: Paymenttransactionstatus
+      PaymentTransactionAppliedFeeAmount: Amount
+      PaymentTransactionCurrency: Currencytypevalues
+      PaymentTransactionCreditDebitIndicator: Debitcreditindicatortvalues
+      TransactionIdentification: Identifier
+      TransactionDate: Transactiondatetime
+      TransactionType: Transactiontypevalues
+      TransactionDescription: string(Text) — A detailed explanation or commentary of transaction.
+      TransactionStatus: Transactionstatus
+      TransactionName: Name
+      UndertakingTransactionType: Undertakingtransactiontypevalues
+      MoneyTransferTransactionAmount: Amount
+      MoneyTransferTransactionCurrency: string(String) — The currency of the money transfer amount
+      MoneyTransferTransactionSourceAccount: string(String) — The account the money is transferred from.
+      MoneyTransferTransactionTargetAccount: string(String) — The account the money is transferred to.
+      MoneyTransferInstructionReference: string(String)
+      MoneyTransferUsedMethod: string(String) — The method used to transfer money; Can be a payment network but also something physical.
+      MoneyTransferValueDate: string(String) — The date on which the money is considerd to have left/have arrived become active can be used /strats to starts is considerd to be
+      FinancialTransactionType: Financialtransactiontypevalues
+      FinancialTransactionCurrency: Currencycode
+      FinancialTransactionAmount: Amount
+      FinancialTransactionFromAccount: Account
+      FinancialTransactionTargetAccount: Account
+      FinancialTransactionDateTime: Datetime
+  PaymentOrderInitiation#/components/schemas/Payer:
+    descricao: Reference to the payer
+    campos:
+      PayerIdentifier: string(String) — Identifier of the payer.
+      PaymentInstructionInvolvementType: Paymentinvolvementtypevalues
+  PaymentOrderInitiation#/components/schemas/PayerBank:
+    descricao: Reference to the payer's bank
+    campos:
+      PayerBankIdentifier: string(String) — Identifier of the payer bank.
+      PaymentInstructionInvolvementType: Paymentinvolvementtypevalues
+  PaymentOrderInitiation#/components/schemas/ProductAgreement:
+    descricao: Reference to the payer's account (the source of funds)
+    campos:
+      ProductAgreementType: Productagreementtypevalues
+      ProductAgreementIdentification: Identifier
+      AgreementSignedDate: Date
+      AgreementType: Agreementtypevalues
+      AgreementValidityPeriod: Datetimeperiod
+      AgreementVersion: string(Text)
+      AgreementStatus: Agreementstatus
+      AgreementSubjectMatter: string(Text)
+      AgreementIdentification: Identifier
+      AgreementDate: Datetime
+      AgreementDescription: string(Text)
+  PaymentOrderInitiation#/components/schemas/Payee:
+    descricao: The target for the payment
+    campos:
+      PayeeIdentifier: string(String) — Identifier of the payee.
+      PaymentInstructionInvolvementType: Paymentinvolvementtypevalues
+  PaymentOrderInitiation#/components/schemas/PayeeBank:
+    descricao: Reference to the payee's bank
+    campos:
+      PayeeBankIdentifier: string(String) — Identifier of the payee bank.
+      PaymentInstructionInvolvementType: Paymentinvolvementtypevalues
+      PartyRoleType: string(Text)
+      PartyRoleName: Name
+      PartyRoleValidityPeriod: Datetimeperiod
+      PartyInvolvementType: Partyinvolvementtypevalues
+  PaymentOrderInitiation#/components/schemas/Amount:
+    campos:
+      AmountValue: string(Value)
+      AmountCurrency: Currencycode
+      DecimalPointPosition: string(Text) — Decimal point position starts calulating from the right
+      AmountType: Amounttypevalues
+  PaymentOrderInitiation#/components/schemas/Currencycode:
+    campos:
+      Currencycode: string(DataType) — A code identifying a currency according to ISO-4217. A currency is a system of money in general use in a particular country. Code allocated to a currency, by a maintenance agency, under an international identification scheme as described in the latest edition of the international standard ISO 4217 "Codes for the representation of currencies and funds". Valid currency codes are registered with the ISO 4217 Maintenance Agency, and consist of three contiguous letters. (ISO20022)
+  PaymentOrderInitiation#/components/schemas/Datetimetypevalues:
+    enum: [ MaturityDate, InitiatedDate, RequestedDate, ExecutedDate, OpenDate, CloseDate, ExpiryDate, EffectiveDate, CreatingDate, ActivationDate, DeactivationDate, BlockingDate, SendingDate, ValidFromDate, ValidToDate, ReceivingDate, SigningDate, DueDate, ValueDate, FulfillmentDate, EntryDate ]
+  PaymentOrderInitiation#/components/schemas/Datetime:
+    campos:
+      DateTimeContent: string(Text) — The particular date and time point in the progression of time
+      TimeZoneCode: string(Text) — The time zone to which the date time refers.
+      DaylightSavingIndicator: string(Text)
+      DateTimeType: Datetimetypevalues
+  PaymentOrderInitiation#/components/schemas/FeeArrangement:
+    descricao: Processing and exchange fees as appropriate
+    campos:
+      FeeType: Feetypevalues
+      FeeAmount: Amount
+      FeeRate: Rate
+      FeeEffectivePeriod: Datetimeperiod
+      FeeDueDate: Datetime
+      FeePlan: Feeplan
+      FeeCreditDebitIndicator: Debitcreditindicatortvalues
+      FeeReason: string(Text) — Reason for the amount adjustment (fee).
+      FeeDirection: Adjustmentdirectiontypevalues
+      FeeBearerType: Chargebearertypevalues
+      FeeChargingFrequency: Frequency
+      FeePaymentMethodType: Feepaymentmethodtypevalues
+      LoanOriginationDate: Date
+      LoanMaturityDate: Date
+      LoanEndDate: Date
+      LoanAmount: Amount
+      LoanArrangementType: Arrangementtypevalues
+      ArrangementAction: Action
+      ArrangementStartDate: Datetime
+      ArrangementEndDate: Datetime
+      ArrangementStatus: Arrangementstatus
+      ArrangementSubjectMatter: Subject
+      Arrangementtype: Arrangementtypevalues
+      ArrangementIdentification: Identifier
+      PaymentCardArrangementIdentifier: Identifier
+      CardPaymentArrangementType: Arrangementtypevalues
+      FinancialAdvisoryServiceArrangementType: Financialadvisoryservicearrangementtype
+      SavingsAccountArrangementType: Arrangementtypevalues
+      SavingsAccountArrangementProductFeatureType: Productfeaturetype
+      CurrentAccountArrangementType: Arrangementtypevalues
+      CurrentAccountArrangementProductFeatureType: Productfeaturetype
+      ArrangementType: Arrangementtypevalues
+      TermDepositArrangementType: Arrangementtypevalues
+      TermDepositArrangementProductFeatureType: Productfeaturetype
+      TermDepositMaturityDate: Datetime
+      TermDepositOpenDate: Datetime
+      TermDepositAmount: Amount
+      TermDepositDuration: Duration
+      DepositTerm: string(String) — The Period for which the TermDepositAmount needs ti stay deposited with the Bank
+      VirtualAccountArrangementType: string
+      BankPlanArrangementType: Arrangementtypevalues
+      CreditFacilityDataTime: Datetime
+      CreditFacilityType: Creditfacilitytypevalues
+      CreditFacilityRateType: Creditfacilityratetypevalues
+      CreditFacilityNumber: Identifier
+      CreditFacilityAmount: Amount
+      StandingOrderFrequency: Frequency
+      StandingOrderPurpose: string(Text) — The purpose of a standing order
+      StandingOrderAmount: Amount
+      StandingOrderCurrency: Currencycode
+      StandingOrderTargetAccountOwner: Involvedparty
+      StandingOrderTargetAccountIdentification: Accountidentification
+      StandingOrderTargetAccountBank: Involvedparty
+      StandingOrderSourceAccount: Account
+      StandingOrderValidityPeriod: Datetimeperiod
+      StandingOrderDay: Datetime
+      StandingOrderType: Standingordertypevalues
+      StandingOrderIdentification: Identifier
+      StandingOrderArrangementType: Arrangementtypevalues
+      StandingOrderDateType: Standingorderdatetimetypevalues
+      StandingOrderNumberOfPayments: string(Text) — Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date. (Open Banking)
+      StandingOrderDate: Datetime
+      StandingOrderStatus: Status
+      StandingOrderSchedule: Schedule
+      ServiceType: Paymentservicetypevalues
+      PaymentDate: Paymentdatetime
+      PaymentPeriod: Datetimeperiod
+      PaymentPurpose: Paymentpurposevalues
+      PaymentAmountAndCurrency: Paymentamountandcurrency
+      PaymentMethod: Paymentmethodtypevalues
+      PaymentType: Paymenttypevalues
+      PaymentTime: Paymenttimevalues
+      RemittanceDeliveryMethod: Remittancedeliverymethodtypevalues
+      RemittanceLocation: Contactpoint
+      PaymentIdentification: Paymentidentification
+      PaymentSchedule: Schedule
+      PaymentFrequency: Frequency
+      PaymentDescription: "string(Text) — Payment reference (sometimes called remittance information or payment description) can appear at both debtor and creditor levels, but with slightly different roles: At the Debtor (Payer) Level The debtor provides the reference/narrative when initiating the payment. Purpose: to explain what the payment is for (e.g., Invoice 1234, August rent). This is usually optional, but very useful for reconciliation. At the Creditor (Payee) Level The same reference is transmitted along with the payment message and shown to the creditor when funds are received. Purpose: allows the creditor to match the payment to the correct invoice, order, or account."
+  PaymentOrderInitiation#/components/schemas/Paymentmechanismtypevalues:
+    enum: [ ACH, SWIFT ]
+  PaymentOrderInitiation#/components/schemas/DocumentDirectoryEntry:
+    descricao: Payer identification document for OTC payment transactions
+    campos:
+      DocumentDirectoryEntryIdentification: string(String) — Identification allowing the retrieval of a document from a Document Directory
+      DirectoryEntryDateType: Directoryentrydatetypevalues
+      DirectoryEntryDate: Date
+      DirectoryEntryStatus: Status
+  PaymentOrderInitiation#/components/schemas/Paymentservicetypevalues:
+    enum: [ CreditTransferService, StandingOrderService, DirectDebitService, CardPaymentService, WithdrawService, DepositService, OverdraftService, MoneyRemittanceService, StatementService ]
+  PaymentOrderInitiation#/components/schemas/Paymentdatetime:
+    descricao: Key dates related to the payment.
+    campos:
+      PaymentDate: Datetime
+      PaymentDateType: Paymentdatetimetypevalues
+  PaymentOrderInitiation#/components/schemas/Datetimeperiod:
+    descricao: Period of time during which the status is valid.
+    campos:
+      FromDateTime: Datetime
+      ToDateTime: Datetime
+  PaymentOrderInitiation#/components/schemas/Paymentpurposevalues:
+    enum: [ Salarypayment, Treasurypayment, Advancepayment, Agriculturaltransfer, Alimonypayment, Childbenefit, Unemploymentdisabilitybenefit, Bonuspayment., Cashmanagementtransfer, Capitalbuilding, Charitypayment, Collectionpayment, Commoditytransfer, Commercialpayment, Commission, Costs, Copyright, Dividend, Foreignexchange, Purchasesaleofgoods, Governmentpayment, Instalmenthirepurchaseagreement, Intracompanypayment, Insurancepremium, Interest, Licensefee, Loan, Loanrepayment, Netting, Payroll, Pensionpayment, Refund, Rent, Royalties, Purchasesaleofservices, Securities, Socialsecuritybenefit, Subscription, Taxpayment, Valueaddedtaxpayment, Consumerthirdpartyconsolidatedpayment, Debitcollectionpayment, Supplierpayment, Hedging, Multipleservicetypes, Nototherwisespecified, Cardpayment, Creditcardbill, Ferry, Air, Bus, Railway, Convalescentcarefacility, Dentalservices, Anesthesiaservices, Homehealthcare, Hospitalcare, Intermediatecarefacility, Longtermcarefacility, Medicalservices, Visioncare, Durablemedicaleequipment, Cabletvbill, Electricitybill, Gasbill, Telephonebill, Othertelecomrelatedbill, Waterbill, Study, Pricepayment, Installment, Recurringinstallmentpayment, Openingfee, Cancellationfee, Governmentinsurance, Insurancepremiumcar, Laborinsurance, Lifeinsurance, Propertyinsurance, Healthinsurance, Carloanprincipalrepayment, Housingloanrepayment, Companysocialloanpaymenttobank, Estatetax, Housingtax, Incometax, Netincometax, Businessexpenses, Trustfund, Networkcharge, Networkcommunication, Receiptpayment, Paymentterms, Other, Withholding ]
+  PaymentOrderInitiation#/components/schemas/Paymentamountandcurrency:
+    descricao: Amount of the payment (arranged to be paid)
+    campos:
+      PaymentAmountAndCurrencyType: Paymentamountandcurrencytypevalues
+      PaymentAmountAndCurrency: Amount
+  PaymentOrderInitiation#/components/schemas/Paymentmethodtypevalues:
+    enum: [ Cheque, Credittransfer, Directdebit, Transferadvice, Direct, Classical ]
+  PaymentOrderInitiation#/components/schemas/Paymenttypevalues:
+    enum: [ Cashtransaction, Domesticpayment, Domestichighvaluepayment, Domesticprioritypayment, Crossborderpayment, Crossborderprioritypayment, Crossborderhighvaluepayment, Thirdcurrencypayment, Thirdcurrencyhighvaluepayment, Thirdcurrencyprioritypayment, Tradesettlementpayment, Foreignexchange, Equivalentamount, Loan, Loanrepayment, Securities, Lockbox, Dividend, Crossedcheque, Opencheque, Ordercheque, Circularcheque, Travellerscheques, Bankdraft, Documentarycredit, Billofexchange, Collection, Cashmanagementtransfer, Topaccount, Zerobalanceaccount, Standingfacilities, Standardservicelevelcredit, Liquiditytransfer, Advancepayment, Valuedateadjustment, Dvpgross, Dvpnet, Netting, Limitpayment, Backup, Expresspayment, Centralbankoperation, Clspayment, Eurodomesticpayment, Agriculturaltransfer, Alimonypayment, Balanceretail, Bonuspayment., Brokeragefee, Capitalbuilding, Charitypayment, Childbenefit, Commercialcredit, Commission, Commoditytransfer, Costs, Copyright, Governmentpayment, Instalmenthirepurchaseagreement, Insurancepremium, Intracompanypayment, Interest, Licensefee, Metals, Pensionpayment, Purchasesaleofgoods, Refund, Rent, Royalties, Purchasesaleofservices, Salarypayment, Socialsecuritybenefit, Standingorder, Subscription, Treasurystatepayment, Unemploymentdisabilitybenefit, Valueaddedtaxpayment, Taxpayment, Overnightdeposit, Marginallending, Other, Upfront, Unwind, Principalexchange ]
+  PaymentOrderInitiation#/components/schemas/Paymenttimevalues:
+    enum: [ Paymentondelivery, Endofmonthofdelivery, Endofperiodafterdelivery, Endofperiodafterendofdeliverymonth, Paymentonreceiptofinvoice, Endofperiodafterendofreceiptmonth, Endofperiodafterreceipt, Endofmonthofreceipt, Endofperiodaftermatch, Endofperiodaftershipmentdate, Endofperiodafterpurchaseorderdate, Endofperiodafterbaselineestablishment, Endofperiodafterinvoicedate ]
+  PaymentOrderInitiation#/components/schemas/Remittancedeliverymethodtypevalues:
+    enum: [ Fax, Electronicdatainterchange, Uniformresourceidentifier, Email, Post, SMS ]
+  PaymentOrderInitiation#/components/schemas/Contactpoint:
+    descricao: Address to which the first agent is to send the remittance information. (ISO20022)
+    campos:
+      ContactPointType: Contactpointtypevalues
+      PartyLocationType: Partylocationtypevalues
+      LocationReference: Location
+      PartyReference: Party
+  PaymentOrderInitiation#/components/schemas/Paymentidentification:
+    campos:
+      PaymentIdentification: Identifier
+      PaymentIdentificationType: Paymentidentificationtypevalues
+  PaymentOrderInitiation#/components/schemas/Schedule:
+    campos:
+      ScheduleType: string(Text)
+  PaymentOrderInitiation#/components/schemas/Frequency:
+    campos:
+      FrequencyCode: Frequencytypevalues
+      FrequencyName: Name
+      FrequencyDefinition: string(Text)
+  PaymentOrderInitiation#/components/schemas/Action:
+    campos:
+      ActionType: Actiontypevalues
+      EventType: string(Text)
+      EventDateTime: Datetime
+      EventDescription: string(Text)
+      EventSource: string(Object)
+      EventLocation: Location
+      EventAction: Action
+      EventStatus: Status
+      EventValue: string(Value)
+      EventValidityPeriod: Datetimeperiod
+      EventIdentification: Identifier
+  PaymentOrderInitiation#/components/schemas/Arrangementstatus:
+    descricao: A characteristic of arrangement which refers to the LifecycleStatus of arrangement (e.g., requested, proposed, offered, accepted, cancelled, terminated, fulfilled, etc.)
+    campos:
+      ArrangementStatus: Status
+      ArrangementStatusType: Arrangementstatustypevalues
+  PaymentOrderInitiation#/components/schemas/Subject:
+    campos:
+      Subject: string(Class) — A thing that is discussed or dealt whit in agreement/arrangement about doing or not doing (as action) something.
+  PaymentOrderInitiation#/components/schemas/Arrangementtypevalues:
+    enum: [ SweepArrangement, WithdrawalArrangement, DepositArrangement, InterestArrangement, FeeArrangement, LienArrangement, InformationArrangement, PaymentArrangement, EntitlementArrangement, PeriodArrangement, CollateralArrangement, LimitArrangement, AccessArrangement, CardPaymentArrangement, StandingOrderArrangement, OverdraftArrangement, RepaymentArrangement, StatementArrangement, CreditTransferArrangement, ProductAndServiceArrangement, FactoringArrangement, RolloverArrangement, RestructuringArrangement, InsuranceArrangement, CollectionArrangement, UnderwritingArrangement, TerminationArrangement, MaturityArrangement, AdministrativeArrangement ]
+  PaymentOrderInitiation#/components/schemas/Identifier:
+    descricao: An identifier that allows to uniquely refer to an instance of a Document.
+    campos:
+      IdentifierValue: string(Value) — tThe actual unique code or number (e.g., passport number, drivers license number).
+      IdentifierIssuerReference: Involvedparty
+      IdentifierStartDate: Datetime
+      IdentifierEndDate: Datetime
+  PaymentOrderInitiation#/components/schemas/Insurancearrangementtypevalues:
+    enum: [ PremiumArrangement, CoverageArrangement, ExclusionArrangement, ClaimArrangement, TerminationArrangement, RenewalArrangement, BenefitArrangement, Legal&RegulatoryArrangement, PaymentArrangement, ServiceArrangement ]
+  PaymentOrderInitiation#/components/schemas/Date:
+    descricao: Date when the assessment expires. (ISO20022)
+    campos:
+      DateContent: string(Text)
+  PaymentOrderInitiation#/components/schemas/Productfeaturetype:
+    descricao: Reference to the product feature applied in this arrangement
+    campos:
+      ProductFeatureTypeValues: Productfeaturetypevalues
+  PaymentOrderInitiation#/components/schemas/Duration:
+    campos:
+      Duration: string(DataType) — A duration is the specification of a length of time without a fixed start or end time, expressed in Gregorian calendar time units (Year, Month, Week, Day) and Hours, Minutes or Seconds. (UN/CEFACT)
+  PaymentOrderInitiation#/components/schemas/Deposittypevalues:
+    enum: [ CashDeposit, SecurityDeposit, PawnDeposit, Call/NoticeDeposit, FixedTermDeposit, DemandDeposit, TimeDeposit, CardDeposit ]
+  PaymentOrderInitiation#/components/schemas/Limitarrangement:
+    descricao: A limit imposed to the facility to deposit funds e.g. minimum deposit of 500€, maximum of 5000 per year, maximum balance of 500 000€This is the actual "value" that has to be used in "the algorithm depicted by the "type".
+    campos:
+      LimitType: Limittypevalues
+      LimitCurrency: Currencycode
+      LimitValidityPeriod: Datetimeperiod
+      LimitAmount: Amount
+      LimitStatus: Limitstatus
+      LimitRate: Rate
+      LimitFrequency: Frequency
+      LimitIdentification: Identifier
+      LimitStartDatetime: Datetime
+      LimitCreditDebitIndicator: Debitcreditindicatortvalues
+      LimitAmountType: Amounttypevalues
+      LoanOriginationDate: Date
+      LoanMaturityDate: Date
+      LoanEndDate: Date
+      LoanAmount: Amount
+      LoanArrangementType: Arrangementtypevalues
+      ArrangementAction: Action
+      ArrangementStartDate: Datetime
+      ArrangementEndDate: Datetime
+      ArrangementStatus: Arrangementstatus
+      ArrangementSubjectMatter: Subject
+      Arrangementtype: Arrangementtypevalues
+      ArrangementIdentification: Identifier
+      SavingsAccountArrangementType: Arrangementtypevalues
+      SavingsAccountArrangementProductFeatureType: Productfeaturetype
+      ProductArrangementType: Arrangementtypevalues
+      CurrentAccountArrangementType: Arrangementtypevalues
+      CurrentAccountArrangementProductFeatureType: Productfeaturetype
+      TermDepositArrangementType: Arrangementtypevalues
+      TermDepositArrangementProductFeatureType: Productfeaturetype
+      TermDepositMaturityDate: Datetime
+      TermDepositOpenDate: Datetime
+      TermDepositAmount: Amount
+      TermDepositDuration: Duration
+      DepositTerm: string(String) — The Period for which the TermDepositAmount needs ti stay deposited with the Bank
+      DepositType: Deposittypevalues
+      DepositLimit: Limitarrangement
+      DepositLimitType: string(Text) — Type of limit imposed on a deposit facility e.g. maximum amount per deposit or per periodThis is "the algorithm"
+      DepositAmount: Amount
+      DepositDatetime: Datetime
+      DepositDatetimeType: string
+      DepositAmountType: Amounttypevalues
+      DepositInterest: Interestarrangement
+      DepositDuration: Duration
+      DepositRate: Rate
+      ServiceType: Paymentservicetypevalues
+      PaymentDate: Paymentdatetime
+      PaymentPeriod: Datetimeperiod
+      PaymentPurpose: Paymentpurposevalues
+      PaymentAmountAndCurrency: Paymentamountandcurrency
+      PaymentMethod: Paymentmethodtypevalues
+      PaymentType: Paymenttypevalues
+      PaymentTime: Paymenttimevalues
+      RemittanceDeliveryMethod: Remittancedeliverymethodtypevalues
+      RemittanceLocation: Contactpoint
+      PaymentIdentification: Paymentidentification
+      PaymentSchedule: Schedule
+      PaymentFrequency: Frequency
+      PaymentDescription: "string(Text) — Payment reference (sometimes called remittance information or payment description) can appear at both debtor and creditor levels, but with slightly different roles: At the Debtor (Payer) Level The debtor provides the reference/narrative when initiating the payment. Purpose: to explain what the payment is for (e.g., Invoice 1234, August rent). This is usually optional, but very useful for reconciliation. At the Creditor (Payee) Level The same reference is transmitted along with the payment message and shown to the creditor when funds are received. Purpose: allows the creditor to match the payment to the correct invoice, order, or account."
+      CreditFacilityDataTime: Datetime
+      CreditFacilityType: Creditfacilitytypevalues
+      CreditFacilityRateType: Creditfacilityratetypevalues
+      CreditFacilityNumber: Identifier
+      CreditFacilityAmount: Amount
+      FuneralPolicyArrangementType: Insurancearrangementtypevalues
+  PaymentOrderInitiation#/components/schemas/Amounttypevalues:
+    enum: [ Principal, Actual, Estimated, Maximum, Default, Replacement, Incremental, Decremental, Reserved, Available, Used, DuePayable, Minimum, Open, Unknown, Fixed ]
+  PaymentOrderInitiation#/components/schemas/Interestarrangement:
+    campos:
+      InterestType: Interesttypevalues
+      InterestRate: Rate
+      InterestDefinition: string(Text)
+      InterestRateType: Interestratetypevalues
+      InterestPeriod: Datetimeperiod
+      InterestRatePlan: Rateplan
+      InterestSchedule: Schedule
+      LoanOriginationDate: Date
+      LoanMaturityDate: Date
+      LoanEndDate: Date
+      LoanAmount: Amount
+      LoanArrangementType: Arrangementtypevalues
+      ArrangementAction: Action
+      ArrangementStartDate: Datetime
+      ArrangementEndDate: Datetime
+      ArrangementStatus: Arrangementstatus
+      ArrangementSubjectMatter: Subject
+      Arrangementtype: Arrangementtypevalues
+      ArrangementIdentification: Identifier
+      PaymentCardArrangementIdentifier: Identifier
+      CardPaymentArrangementType: Arrangementtypevalues
+      SavingsAccountArrangementType: Arrangementtypevalues
+      SavingsAccountArrangementProductFeatureType: Productfeaturetype
+      CurrentAccountArrangementType: Arrangementtypevalues
+      CurrentAccountArrangementProductFeatureType: Productfeaturetype
+      ProductArrangementType: Arrangementtypevalues
+      TermDepositArrangementType: Arrangementtypevalues
+      TermDepositArrangementProductFeatureType: Productfeaturetype
+      TermDepositMaturityDate: Datetime
+      TermDepositOpenDate: Datetime
+      TermDepositAmount: Amount
+      TermDepositDuration: Duration
+      DepositTerm: string(String) — The Period for which the TermDepositAmount needs ti stay deposited with the Bank
+      VirtualAccountArrangementType: string
+      BankPlanArrangementType: Arrangementtypevalues
+      CreditFacilityDataTime: Datetime
+      CreditFacilityType: Creditfacilitytypevalues
+      CreditFacilityRateType: Creditfacilityratetypevalues
+      CreditFacilityNumber: Identifier
+      CreditFacilityAmount: Amount
+  PaymentOrderInitiation#/components/schemas/Rate:
+    descricao: Specifies that the limit is a percentage of a related amount. (ISO20022)
+    campos:
+      RateValue: string(Value)
+      RateUnit: string(Text) — The unit of measure like Percentage or BPS Basis points (BPS) refers to a common unit of measure for interest rates and other percentages in finance.
+      RatePeriod: Datetimeperiod
+      RateCapitalUnit: string(Text)
+  PaymentOrderInitiation#/components/schemas/Paymenttransactionstatus:
+    descricao: Specifies the status of a payment transaction at a specified time. Elements
+    campos:
+      PaymentTransactionStatus: Status
+      PaymentTransactionStatusType: Paymenttransactionstatustypevalues
+  PaymentOrderInitiation#/components/schemas/Currencytypevalues:
+    enum: [ BaseCurrency, ReportingCurrency, SecondaryCurrency, TransferCurrency, SettlementCurrency ]
+  PaymentOrderInitiation#/components/schemas/Debitcreditindicatortvalues:
+    enum: [ Debit, Credit ]
+  PaymentOrderInitiation#/components/schemas/Transactiondatetime:
+    descricao: The Date that the transaction has occurred or is planned to occur. A characteristic of transaction which refers to the LifecycleDate of transaction (e.g., initiated date, executed date, fulfillment date).
+    campos:
+      TransactionDate: Datetime
+      TransactionDateType: Transactiondatetimetypevalues
+  PaymentOrderInitiation#/components/schemas/Transactionstatus:
+    descricao: A characteristic of transaction which refers to the LifecycleStatus of transaction (e.g., initiated, executed, confirmed, cancelled, etc.)
+    campos:
+      TransactionStatus: Status
+      TransactionStatusType: Transactionstatustypevalues
+  PaymentOrderInitiation#/components/schemas/Name:
+    campos:
+      Name: string(DataType) — A name is a word or phrase that constitutes the distinctive designation of a person, place, thing or concept. (UN/CEFAT)
+  PaymentOrderInitiation#/components/schemas/Undertakingtransactiontypevalues:
+    enum: [ PaymentTransaction, IssuingTransaction, BookingTransaction, CollateralAllocationTransaction, TerminationTransaction, AmendmentTransaction ]
+  PaymentOrderInitiation#/components/schemas/Financialtransactiontypevalues:
+    enum: [ PricingTransaction, FeeTransaction, WithdrawalTransaction, DepositTransaction, PaymentTransaction, ClearingTransaction, SettlementTransaction, Reconciliationtransaction, Updatetransaction, Securitiestransaction, RepaymentTransaction ]
+  PaymentOrderInitiation#/components/schemas/Account:
+    campos:
+      AccountStatus: Accountstatus
+      AccountIdentification: Accountidentification
+      AccountDate: Accountdatetime
+      AccountType: Accounttypevalues
+      AccountPurpose: string(Text)
+      AccountBalance: Accountbalance
+      AccountCurrency: Accountcurrency
+      AccountDescription: string(Text) — A detailed explanation or commentary of account.
+      AccountName: Name
+      LogType: string(Text)
+      LogPeriod: Datetimeperiod
+      LogDate: Datetime
+      LogIdentification: Identifier
+  PaymentOrderInitiation#/components/schemas/Paymentinvolvementtypevalues:
+    enum: [ PayerOrDebtor, PayeeBankOrCreditorAgent, PayeeOrCreditor, PayerBankOrDebtorAgent, Initiator, PSU, PSP, UltimateDebtor, UltimateCreditor ]
+  PaymentOrderInitiation#/components/schemas/Productagreementtypevalues:
+    enum: [ CurrentAccountAgreement, SavingsAccountAgreement, BrokeredProductAgreement, ConsumerLoanAgreement, MortgageLoanAgreement, DirectDebitServiceAgreement, TermDepositAgreement ]
+  PaymentOrderInitiation#/components/schemas/Agreementtypevalues:
+    enum: [ CustomerAgreement, SupplierAgreement, BrokerAgreement, SalesAgreement, PurchaseAgreement, MaintenanceAgreement, ProductAgreement, ResourceAgreement, PartnerAgreement, MasterAgreement, BilateralAgreement, RepurchaseAgreement ]
+  PaymentOrderInitiation#/components/schemas/Agreementstatus:
+    descricao: A characteristic of agreement which refers to the LifecycleStatus of agreement (e.g., potential, offered, confirmed, completed, signed, terminated).
+    campos:
+      AgreementStatus: Status
+      AgreementStatusType: Agreementstatustypevalues
+  PaymentOrderInitiation#/components/schemas/Partyinvolvementtypevalues:
+    enum: [ AgreementInvolvement, PartyInvolvement, ArrangementInvolvement, DesignSpecificationInvolvement, RelationshipInvolvement, LocationInvolvement, BankGuaranteeInvolvement ]
+  PaymentOrderInitiation#/components/schemas/Feetypevalues:
+    enum: [ Accountingfee, Adrfee, Advisoryfee, Airwaybillfee, Backendload, Brokeragefee, Clearanceandhandlingatdestination, Clearanceandhandlingatorigin, Collectfreight, Commission, Contingencydeferredsalescharge, Correspondentbankcharge, Custodyfee, Dangerousgoodsfee, Dilutionlevy, Discount, Equalisation, Frontendload, Initial, Insurancepremium, Issuancecancellationfee, Issuancefee, Managementfee, Matchingfees, Miscellaneousfee, Other, Packaging, Partacquis, Penalty, Pickup, Postagecharge, Premium, Publicationfee, Regulatoryfee, Securitycharge, Serviceprovisionfee, Shippingcharge, Signatureservice, Specialconcessions, Speciallyagreedfrontendload, Storageatdestination, Storageatorigin, Switch, Transferfee, Transportcharges, Ucitscommission, ChequeRelatedFee ]
+  PaymentOrderInitiation#/components/schemas/Feeplan:
+    descricao: An arranged FeeRatePlan
+    campos:
+      FeePlanName: Name
+      FeePlanType: Feeplantypevalues
+      FeePlan: Plan
+  PaymentOrderInitiation#/components/schemas/Adjustmentdirectiontypevalues:
+    enum: [ Added, Substracted ]
+  PaymentOrderInitiation#/components/schemas/Chargebearertypevalues:
+    enum: [ Bornebydebtor, Bornebycreditor, Shared, Followingservicelevel ]
+  PaymentOrderInitiation#/components/schemas/Feepaymentmethodtypevalues:
+    enum: [ Cash, Unit ]
+  PaymentOrderInitiation#/components/schemas/Financialadvisoryservicearrangementtype:
+    enum: [ FeeArrangement, FinancialPlanningArrangement, TaxOptimizationArrangement, StrategicFundingArrangement, TacticalFundingArrangement, CapitalStructuringArrangement, ProductGuidanceArrangement ]
+  PaymentOrderInitiation#/components/schemas/Creditfacilitytypevalues:
+    enum: [ Revolving, FixedAmount, Decreasing ]
+  PaymentOrderInitiation#/components/schemas/Creditfacilityratetypevalues:
+    enum: [ AvailabilityCommission ]
+  PaymentOrderInitiation#/components/schemas/Accountidentification:
+    descricao: The identifier of account like Account Number.
+    campos:
+      AccountIdentificationType: Accountidentificationtypevalues
+      AccountIdentification: Identifier
+  PaymentOrderInitiation#/components/schemas/Standingordertypevalues:
+    enum: [ UserDefinedStandingOrder, PredefinedStandingOrder ]
+  PaymentOrderInitiation#/components/schemas/Standingorderdatetimetypevalues:
+    enum: [ FirstPaymentDateTime, NextPaymentDateTime, LastPaymentDateTime, FinalPaymentDateTime ]
+  PaymentOrderInitiation#/components/schemas/Status:
+    campos:
+      StatusReason: string(Text) — Specifies the reasons for the status.
+      StatusDateTime: Datetime
+      StatusValidityPeriod: Datetimeperiod
+      StatusInvolvedPartyReference: Involvedparty
+  PaymentOrderInitiation#/components/schemas/Directoryentrydatetypevalues:
+    enum: [ OpenDate, RefreshDate ]
+  PaymentOrderInitiation#/components/schemas/Paymentdatetimetypevalues:
+    enum: [ RequestedExecutionDate, AcceptanceDate, CreationDate, ValueDate, DueDate, ExpiryDate, ExpectedDate, PoolingAdjustmentDate ]
+  PaymentOrderInitiation#/components/schemas/Paymentamountandcurrencytypevalues:
+    enum: [ InstructedAmountAndCurrency, EquivalentAmountAndCurrency, DebtorAccountAmountAndCurrency, InterbankSettlementAmountAndCurrency, CreditorAccountAmountAndCurrency, Net/ReceivedAmountAndCurrency ]
+  PaymentOrderInitiation#/components/schemas/Contactpointtypevalues:
+    enum: [ ElectronicAddress, PostalAddress, PhoneNumber, Socialnetworkaddress ]
+  PaymentOrderInitiation#/components/schemas/Partylocationtypevalues:
+    enum: [ LocationIsResidentialAddressOfParty, LocationIsDomicileAddressOfParty, LocationIsPlaceOfBirthOfParty, LocationIsWorkAddressOfParty, LocationIsDeliveryPointAddressOfParty, PartyIsOwnerOfLocation, PartyIsOccupierOfLocation, PartyIsAlliancePartnerOfLocation, LocationIsContactPointAddressOfParty ]
+  PaymentOrderInitiation#/components/schemas/Location:
+    campos:
+      LocationDescription: string(Text) — A description of the property, particularly if it has landmark characteristics.
+      LocationDateTime: Datetime
+      LocationStatus: Status
+      LocationType: Geographicalareatypevalues
+      LocationZoningType: string(Text) — The planning or zoning status (e.g. residential, commercial, industrial).
+      LocationNeighborhoodType: string(Text) — The general purpose and neighborhood of the property (e.g. residential, industrial, commercial).
+      LocationConstructionType: string(Text) — The construction approach for a property at the location (e.g. era and architecture as might be used in valuation).
+      LocationOccupancyType: string(Text) — The type of occupancy (e.g. residency, business, retail, entertainment).
+      LocationValue: string(Value) — The estimated (book) value of the property at the location - rental and purchase as appropriate.
+      LocationCapacity: string(Text) — An indication of the size or scale of the property where appropriate (e.g. 4 bedroom, 600 seat auditorium, 40 cover restaurant).
+      LocationIdentification: Identifier
+      LocationAddress: string(Text) — Reference to the address of location
+      LocationName: Name
+      LocationTimeZone: string(Text) — Local time zone.
+  PaymentOrderInitiation#/components/schemas/Party:
+    campos:
+      PartyName: Name
+      PartyType: Partytypevalues
+      PartyDateTime: Datetime
+      PartyIdentification: Partyidentification
+      PartyLegalStructureType: Partylegalstructuretypevalues
+      PartyActivityIndicator: Industrycode
+  PaymentOrderInitiation#/components/schemas/Paymentidentificationtypevalues:
+    enum: [ Executionidentification, Endtoendidentification, Instructionidentification, Transactionidentification, Clearingsystemreference, Creditorreference, UETR, Counterpartyreference, Identification, Commonidentification, Matchingreference, Uniquetradeidentifier, Clearingbrokeridentification, PaymentOrderID, ClientReference, End-To-EndID, ExternalReference, InstructionID, TransactionID(ExecutionID) ]
+  PaymentOrderInitiation#/components/schemas/Frequencytypevalues:
+    enum: [ Annual, Monthly, Quarterly, Semiannual, Weekly, Daily, Adhoc, Intraday, Overnight, Tendays, Fortnightly, Triggeredbymovement, Never, Rate, Oncreditevent, Upfront, Onexpiry, Hourly ]
+  PaymentOrderInitiation#/components/schemas/Actiontypevalues:
+    enum: [ Initiate, Execute, Create, Transfer, Pay, Deliver, Apply, Calculate ]
+  PaymentOrderInitiation#/components/schemas/Arrangementstatustypevalues:
+    enum: [ Requested, Proposed, Offered, Accepted, Cancelled, Fulfilled, Terminated ]
+  PaymentOrderInitiation#/components/schemas/Productfeaturetypevalues:
+    enum: [ Bankingservice, Administrationservice, Accessservice, Pricefeature ]
+  PaymentOrderInitiation#/components/schemas/Limittypevalues:
+    enum: [ Multilateral, Bilateral, Netbilateral, Indirectbilateral, Global, Mandatorybilateral, Discretionarybilateral, Directdebit, Singlecustomerdirectdebit, Singlefinancialinstitutiondirectdebit, Totaldailycustomerdirectdebit, Totaldailyfinancialinstitutiondirectdebit, Autocollateralisation, Unsecuredcredit, Externalguarantee ]
+  PaymentOrderInitiation#/components/schemas/Limitstatus:
+    descricao: Current status of the limit.
+    campos:
+      LimitStatus: Status
+      LimitStatusType: Limitstatustypevalues
+  PaymentOrderInitiation#/components/schemas/Interesttypevalues:
+    enum: [ Fixed, Floatingratenote, Dualbasis, Index, Discounted, Zerocoupon, Exinterest, Cuminterest ]
+  PaymentOrderInitiation#/components/schemas/Interestratetypevalues:
+    enum: [ Fixed, Forfeit, Variable, Scheduled, Unscheduled, Discount, Fixedrateunderlyingexposureforlife, Fixedrateunderlyingexposurewithcompulsoryfutureswitchtofloating, Fixedwithfutureperiodicresets, Floatinglinkedtoindex, Floatingrateunderlyingexposureforlife, Floatingrateunderlyingexposurewithcap, Floatingrateunderlyingexposurewithfloor, Floatingrateunderlyingexposurewithfloorandcap, Modular, Obligorswapped, Other, Swicthoptionality ]
+  PaymentOrderInitiation#/components/schemas/Rateplan:
+    descricao: An arranged InterestRatePlan
+    campos:
+      RatePlanName: string(String)
+      RatePlanType: Rateplantypevalues
+      RatePlan: string(String)
+  PaymentOrderInitiation#/components/schemas/Paymenttransactionstatustypevalues:
+    enum: [ Acceptedtechnicalvalidation, Received, Partiallyaccepted, Rejected, Pending, Acceptedcustomerprofile, Acceptedsettlementinprocess, Acceptedsettlementcompleted, Accepted, Acceptedcancellationrequest, Rejectedcancellationrequest, Acceptedwithchange, Partiallyacceptedcancellationrequest, Pendingcancellationrequest, Acceptedcreditsettlementcompleted, Paymentcancelled, Nocancellationprocess ]
+  PaymentOrderInitiation#/components/schemas/Transactiondatetimetypevalues:
+    enum: [ ExecutedDate, FulfillmentDate, InitiatedDate, CancelledDate, ApprovedDate, ValueDate, BookingDate ]
+  PaymentOrderInitiation#/components/schemas/Transactionstatustypevalues:
+    enum: [ Initiated, Executed, Cancelled, Confirmed, Suspended, Pending, Completed, Notified, Booked, Rejected ]
+  PaymentOrderInitiation#/components/schemas/Accountstatus:
+    descricao: A characteristic of account which refers to the LifecycleStatus of account like opened, closed, blocked, etc. Specifies the current state of an account. (ISO20022)
+    campos:
+      AccountStatus: Status
+      AccountStatusType: Accountstatustypevalues
+  PaymentOrderInitiation#/components/schemas/Accountdatetime:
+    descricao: A characteristic of account which refers to LifecycleDate of account (e.g., ClosingDate, OpeningDate, LiveDate, etc.)
+    campos:
+      AccountDateType: Accountdatetimetypevalues
+      AccountDate: Datetime
+  PaymentOrderInitiation#/components/schemas/Accounttypevalues:
+    enum: [ DebitAccount, CreditAccount, VostroAcount, NostroAccount, PaymentAccount, SettlementAccount, SavingAccount, CurrentAccount, CashAccount, LoanAccount, IndividualAccount, JointAccount, LiquidationAccount, ProvisionAccount, PartnershipAccount, InvestmentAccount ]
+  PaymentOrderInitiation#/components/schemas/Accountbalance:
+    descricao: "The state of the obligations managed on the account, the result of all entries on the account. Numerical representation of the net increases and decreases in an account at a specific point in time. (ISO20022) Banking: Amount available in an account for withdrawal or use. Read more: http://www.businessdictionary.com/definition/balance.html Bookkeeping: Difference between the debit and credit sides of an account. Read more: http://www.businessdictionary.com/definition/balance.html"
+    campos:
+      BalanceAmount: Amount
+      BalanceType: Balancetypevalues
+      BalanceValueDate: Datetime
+      BalanceIndicator: Debitcreditindicatortvalues
+      BalanceCounterpartyType: Balancecounterpartytypevalues
+      BalanceCalculationDate: Datetime
+      BalanceSubType: Balancesubtypevalues
+  PaymentOrderInitiation#/components/schemas/Accountcurrency:
+    campos:
+      AccountCurrencyType: Currencytypevalues
+      AccountCurrency: Currencycode
+  PaymentOrderInitiation#/components/schemas/Agreementstatustypevalues:
+    enum: [ Offered, Confirmed, Completed, Signed, Terminated, Rejected ]
+  PaymentOrderInitiation#/components/schemas/Feeplantypevalues:
+    enum: [ StandardFeePlan, FinalFeePlan ]
+  PaymentOrderInitiation#/components/schemas/Plan:
+    campos:
+      PlanGoal: Goal
+      PlanBudget: Budgetarrangement
+      PlannedAction: Plannedaction
+      PlanType: Plantypevalues
+      PlanValidityPeriod: Datetimeperiod
+      PlanDescription: string(Text)
+      AgreementSignedDate: Date
+      AgreementType: Agreementtypevalues
+      AgreementValidityPeriod: Datetimeperiod
+      AgreementVersion: string(Text)
+      AgreementStatus: Agreementstatus
+      AgreementSubjectMatter: string(Text)
+      AgreementIdentification: Identifier
+      AgreementDate: Datetime
+      AgreementDescription: string(Text)
+  PaymentOrderInitiation#/components/schemas/Accountidentificationtypevalues:
+    enum: [ BBAN, IBAN, UPIC, AccountNumber, PAN, Paym, Wallet, SortCodeAndAccountNumber, AIIN, CUID ]
+  PaymentOrderInitiation#/components/schemas/Geographicalareatypevalues:
+    enum: [ Continent, Country, State, District, Province, Town, City, Region ]
+  PaymentOrderInitiation#/components/schemas/Partytypevalues:
+    enum: [ Person, Organisation ]
+  PaymentOrderInitiation#/components/schemas/Partylegalstructuretypevalues:
+    enum: [ Individual, CommunityInterestCompany, CharitableIncorporatedOrganisation, Co-Operative, Charity, GeneralPartnership, LimitedLiabilityPartnership, ScottishLimitedPartnership, LimitedPartnership, PrivateLimitedCompany, PublicLimitedCompany, Sole(SoleTrader) ]
+  PaymentOrderInitiation#/components/schemas/Limitstatustypevalues:
+    enum: [ Enabled, Disabled, Deleted, Requested ]
+  PaymentOrderInitiation#/components/schemas/Rateplantypevalues:
+    enum: [ StandardRatePlan, AdjustmentRatePlan, FinalRatePlan ]
+  PaymentOrderInitiation#/components/schemas/Accountstatustypevalues:
+    enum: [ Enabled, Disabled, Deleted, Proforma, Pending ]
+  PaymentOrderInitiation#/components/schemas/Accountdatetimetypevalues:
+    enum: [ OpeningDate, ClosingDate, BlockingDate, MaturityDate, LiveDate, RenewalDate ]
+  PaymentOrderInitiation#/components/schemas/Balancetypevalues:
+    enum: [ OpeningBalance, ClosingBalance, CurrentBalance, AvailableBalance, LedgerBalance, ReserveBalance, FreeBalance, PrincipalBalance, ClosingAvailable, ClosingBooked, ForwardAvailable, Information, InterimAvailable, InterimBooked, OpeningAvailable, OpeningBooked, PreviouslyClosedBooked, Expected ]
+  PaymentOrderInitiation#/components/schemas/Balancecounterpartytypevalues:
+    enum: [ Bilateral, Multilateral ]
+  PaymentOrderInitiation#/components/schemas/Balancesubtypevalues:
+    enum: [ Adjustment, Basecurrency, Blocked, Blockedfunds, Daylightoverdraft, Eligibleassets, Firmcollateralization, Amountsthathavebeenusedtoserveasfirmcollateral, Securitiesforecast, Netfunding, Intermediate, Localcurrency, Limitrelated, Reservedliquidity, Securitiespending, Payinpayout, Progressiveaverage, Reserve, Selfcollateralization, Amountsthathavebeenusedtoserveasselfcollateral, Threshold ]
+  PaymentOrderInitiation#/components/schemas/Plantypevalues:
+    enum: [ AdministrativePlan, ManagementPlan, StratgyPlan, FinancialPlan, DevelopmentPlan ]
+tipos_nao_expandidos: [ PaymentOrderInitiation#/components/schemas/Budgetarrangement, PaymentOrderInitiation#/components/schemas/Goal, PaymentOrderInitiation#/components/schemas/Industrycode, PaymentOrderInitiation#/components/schemas/Partyidentification, PaymentOrderInitiation#/components/schemas/Plannedaction ]

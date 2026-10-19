@@ -1,0 +1,263 @@
+{
+  "meta": {
+    "framework": "BIAN Service Landscape",
+    "version": "14.0.0",
+    "generatedAt": "2026-09-13",
+    "purpose": "Catálogo estruturado do BIAN para injeção direta em prompt de LLM (sem RAG/vector DB), usado pela ferramenta de geração de scaffold do TCC.",
+    "sourceOfServiceDomainNamesAndDescriptions": "Repositório público oficial https://github.com/bian-official/public, pasta release14.0.0/semantic-apis (OpenAPI 3.0). Nomes e descrições traduzidos e resumidos a partir do campo 'description' de cada especificação oficial.",
+    "sourceOfBusinessAreaAndDomainGrouping": "Estrutura de 3 níveis (Business Area > Business Domain > Service Domain) confirmada em bian.org e no BIAN Metamodel (Wikipedia/OpenGroup ArchiMate-BIAN). O agrupamento de Business Domains dentro de cada Business Area foi reconstruído a partir de fontes públicas secundárias (planilha BIAN v9.1 e literatura acadêmica), pois a tabela oficial completa da v14 está disponível apenas no portal do BIAN mediante cadastro gratuito (https://bian.org/deliverables/service-landscape/). RECOMENDA-SE validar esse agrupamento contra o portal oficial antes de citar como fonte primária no TCC.",
+    "status_legend": {
+      "detailed": "Service Domains listados com nome oficial e descrição, prontos para uso no prompt.",
+      "partial": "Apenas um recorte pontual de Service Domains foi detalhado (suficiente para o MVP), o Business Domain completo não foi mapeado.",
+      "pending": "Apenas o nome do Business Domain é conhecido; Service Domains não foram detalhados (fora do escopo do MVP)."
+    }
+  },
+  "mvpScope": {
+    "functionalGroupDecidedByAdvisor": "Payments",
+    "pilotServiceDomains": [
+      "PaymentOrderInitiation",
+      "PaymentRail",
+      "PartyReferenceDataDirectory",
+      "CurrentAccount"
+    ],
+    "rationale": "Recorte mínimo que cobre o ciclo completo de um pagamento simples: iniciar a ordem (PaymentOrderInitiation), executá-la via um rail de pagamento (PaymentRail), identificar as partes envolvidas (PartyReferenceDataDirectory) e debitar/creditar uma conta (CurrentAccount). Ver justificativa completa na resposta da atividade 3."
+  },
+  "businessAreas": [
+    {
+      "id": "sales-service",
+      "name": "Sales & Service",
+      "namePt": "Vendas e Atendimento",
+      "businessDomains": [
+        { "id": "channel-specific", "name": "Channel Specific", "namePt": "Canais Específicos", "status": "pending", "serviceDomains": [] },
+        { "id": "cross-channel", "name": "Cross Channel", "namePt": "Multicanal", "status": "pending", "serviceDomains": [] },
+        { "id": "marketing", "name": "Marketing", "namePt": "Marketing", "status": "pending", "serviceDomains": [] },
+        { "id": "sales", "name": "Sales", "namePt": "Vendas", "status": "pending", "serviceDomains": [] },
+        { "id": "customer-management", "name": "Customer Management", "namePt": "Gestão de Clientes", "status": "pending", "serviceDomains": [] },
+        { "id": "servicing", "name": "Servicing", "namePt": "Atendimento", "status": "pending", "serviceDomains": [] }
+      ]
+    },
+    {
+      "id": "reference-data",
+      "name": "Reference Data",
+      "namePt": "Dados de Referência",
+      "businessDomains": [
+        {
+          "id": "party",
+          "name": "Party",
+          "namePt": "Parte (Cliente/Contraparte)",
+          "status": "detailed",
+          "mvpPilot": true,
+          "serviceDomains": [
+            {
+              "apiName": "PartyReferenceDataDirectory",
+              "name": "Party Reference Data Directory",
+              "namePt": "Diretório de Dados de Referência da Parte",
+              "descriptionPt": "Mantém os dados de referência da parte (cliente/contraparte): informações gerais, contatos, associações e dados demográficos.",
+              "mvpPilot": true
+            },
+            {
+              "apiName": "PartyLifecycleManagement",
+              "name": "Party Lifecycle Management",
+              "namePt": "Gestão do Ciclo de Vida da Parte",
+              "descriptionPt": "Acompanha o ciclo de vida do relacionamento da parte com o banco, desde a checagem inicial (KYC) até a manutenção contínua conforme exigências legais e regulatórias."
+            },
+            {
+              "apiName": "PartyAuthentication",
+              "name": "Party Authentication",
+              "namePt": "Autenticação da Parte",
+              "descriptionPt": "Fornece o serviço de autenticação de identidade do cliente em todos os canais e dispositivos."
+            },
+            {
+              "apiName": "PartyAssetDirectory",
+              "name": "Party Asset Directory",
+              "namePt": "Diretório de Ativos da Parte",
+              "descriptionPt": "Mantém o registro de ativos de uma parte, normalmente relevantes quando usados como garantia (colateral) junto ao banco."
+            },
+            {
+              "apiName": "PartyRoutingProfile",
+              "name": "Party Routing Profile",
+              "namePt": "Perfil de Roteamento da Parte",
+              "descriptionPt": "Mantém um perfil resumido de indicadores-chave do cliente (status, classificação, alertas) usado para roteamento e decisões de atendimento."
+            }
+          ]
+        },
+        { "id": "external-agency", "name": "External Agency", "namePt": "Agências Externas", "status": "pending", "serviceDomains": [] },
+        { "id": "market-data", "name": "Market Data", "namePt": "Dados de Mercado", "status": "pending", "serviceDomains": [] },
+        { "id": "product-management", "name": "Product Management", "namePt": "Gestão de Produto", "status": "pending", "serviceDomains": [] }
+      ]
+    },
+    {
+      "id": "operations-execution",
+      "name": "Operations & Execution",
+      "namePt": "Operações e Execução",
+      "businessDomains": [
+        {
+          "id": "payments",
+          "name": "Payments",
+          "namePt": "Pagamentos",
+          "status": "detailed",
+          "mvpPilot": true,
+          "serviceDomains": [
+            {
+              "apiName": "PaymentOrderInitiation",
+              "name": "Payment Order Initiation",
+              "namePt": "Iniciação da Ordem de Pagamento",
+              "descriptionPt": "Recebe e orquestra uma ordem de pagamento do cliente (pagador, recebedor, valor e forma), com suporte a pagamentos recorrentes/agendados.",
+              "mvpPilot": true
+            },
+            {
+              "apiName": "PaymentRail",
+              "name": "Payment Rail",
+              "namePt": "Trilho de Pagamento",
+              "descriptionPt": "Gerencia a interface operacional com provedores de pagamento (redes de compensação), formatando transações de saída e roteando transações de entrada em janelas de processamento; conecta-se a contas de liquidação para pagamentos líquidos (netting).",
+              "mvpPilot": true
+            },
+            {
+              "apiName": "DirectDebit",
+              "name": "Direct Debit",
+              "namePt": "Débito Direto",
+              "descriptionPt": "Processa o lado credor do débito direto, cumprindo o acordo autorizado pelo cliente pagador."
+            },
+            {
+              "apiName": "DirectDebitMandate",
+              "name": "Direct Debit Mandate",
+              "namePt": "Mandato de Débito Direto",
+              "descriptionPt": "Gerencia os mandatos (autorizações) de débito direto associados a clientes, tipicamente corporativos."
+            },
+            {
+              "apiName": "CorrespondentBankDirectory",
+              "name": "Correspondent Bank Directory",
+              "namePt": "Diretório de Bancos Correspondentes",
+              "descriptionPt": "Mantém os dados de referência de bancos correspondentes, incluindo limites e histórico de transações para controle de reciprocidade."
+            },
+            {
+              "apiName": "CorrespondentBankRelationshipManagement",
+              "name": "Correspondent Bank Relationship Management",
+              "namePt": "Gestão de Relacionamento com Bancos Correspondentes",
+              "descriptionPt": "Administra o relacionamento com bancos correspondentes, garantindo reciprocidade e desenvolvendo novos negócios."
+            },
+            {
+              "apiName": "ChequeProcessing",
+              "name": "Cheque Processing",
+              "namePt": "Processamento de Cheques",
+              "descriptionPt": "Processa cheques em papel, gerando as transações financeiras correspondentes."
+            },
+            {
+              "apiName": "ChequeLockBox",
+              "name": "Cheque Lock Box",
+              "namePt": "Lockbox de Cheques",
+              "descriptionPt": "Suporta serviços de processamento de cheques em papel oferecidos a clientes corporativos (lockbox)."
+            },
+            {
+              "apiName": "BankDrafts",
+              "name": "Bank Drafts",
+              "namePt": "Cheques Administrativos",
+              "descriptionPt": "Suporta transações de pagamento garantidas pelo banco, como cheques administrativos (bank drafts)."
+            },
+            {
+              "apiName": "CashConcentration",
+              "name": "Cash Concentration",
+              "namePt": "Concentração de Caixa",
+              "descriptionPt": "Serviço de gestão de caixa que move saldos entre contas para atender necessidades de liquidez centralizada."
+            },
+            {
+              "apiName": "CashManagementAndAccountServices",
+              "name": "Cash Management and Account Services",
+              "namePt": "Serviços de Gestão de Caixa e Conta",
+              "descriptionPt": "Orquestra serviços adicionais de gestão de caixa para clientes corporativos, além dos recursos padrão de conta corrente/poupança."
+            },
+            {
+              "apiName": "CurrencyExchange",
+              "name": "Currency Exchange",
+              "namePt": "Câmbio",
+              "descriptionPt": "Suporta operações de câmbio (compra/venda de moeda estrangeira) no balcão."
+            },
+            {
+              "apiName": "StandingOrder",
+              "name": "Standing Order",
+              "namePt": "Ordem Permanente",
+              "descriptionPt": "Gerencia ordens permanentes emitidas pelo cliente, como pagamentos periódicos e transferências automáticas entre contas."
+            },
+            {
+              "apiName": "Disbursement",
+              "name": "Disbursement",
+              "namePt": "Desembolso",
+              "descriptionPt": "Trata o desembolso de fundos para empréstimos/facilidades recém-estabelecidos."
+            },
+            {
+              "apiName": "NotionalPooling",
+              "name": "Notional Pooling",
+              "namePt": "Pool Nocional de Contas",
+              "descriptionPt": "Permite que um cliente corporativo com múltiplas contas agrupe saldos (crédito/débito) para uma posição de liquidez centralizada, reduzindo despesas de juros."
+            },
+            {
+              "apiName": "TransactionEngine",
+              "name": "Transaction Engine",
+              "namePt": "Motor de Transações",
+              "descriptionPt": "Orquestra um cronograma de transações de pagamento e relatórios para o cumprimento de instrumentos ou facilidades estruturadas de longo prazo."
+            },
+            {
+              "apiName": "TransactionAuthorization",
+              "name": "Transaction Authorization",
+              "namePt": "Autorização de Transação",
+              "descriptionPt": "Realiza a autorização de transações interativas do cliente com base em risco, combinando canal, dados do cliente e análise de atividade recente."
+            }
+          ]
+        },
+        {
+          "id": "account-management",
+          "name": "Account Management",
+          "namePt": "Gestão de Contas",
+          "status": "partial",
+          "mvpPilot": true,
+          "serviceDomains": [
+            {
+              "apiName": "CurrentAccount",
+              "name": "Current Account",
+              "namePt": "Conta Corrente",
+              "descriptionPt": "Orquestra uma conta corrente/conta à vista de pessoa física, cobrindo pagamentos, depósitos, ordens permanentes, garantias e acesso via cheque/cartão de débito.",
+              "mvpPilot": true
+            }
+          ]
+        },
+        { "id": "loans-deposits", "name": "Loans and Deposits", "namePt": "Empréstimos e Depósitos", "status": "pending", "serviceDomains": [] },
+        { "id": "investment-management", "name": "Investment Management", "namePt": "Gestão de Investimentos", "status": "pending", "serviceDomains": [] },
+        { "id": "trade-banking", "name": "Trade Banking", "namePt": "Comércio Exterior / Trade Finance", "status": "pending", "serviceDomains": [] },
+        { "id": "wholesale-trading", "name": "Wholesale Trading", "namePt": "Negociação no Atacado", "status": "pending", "serviceDomains": [] },
+        { "id": "cards", "name": "Cards", "namePt": "Cartões", "status": "pending", "serviceDomains": [] },
+        { "id": "market-operations", "name": "Market Operations", "namePt": "Operações de Mercado", "status": "pending", "serviceDomains": [] },
+        { "id": "corporate-financing-advisory", "name": "Corporate Financing and Advisory Services", "namePt": "Financiamento Corporativo e Assessoria", "status": "pending", "serviceDomains": [] },
+        { "id": "consumer-services", "name": "Consumer Services", "namePt": "Serviços ao Consumidor", "status": "pending", "serviceDomains": [] },
+        { "id": "cross-product-operations", "name": "Cross Product Operations", "namePt": "Operações Cross-Produto", "status": "pending", "serviceDomains": [] },
+        { "id": "operational-services", "name": "Operational Services", "namePt": "Serviços Operacionais", "status": "pending", "serviceDomains": [] },
+        { "id": "collateral-administration", "name": "Collateral Administration", "namePt": "Administração de Garantias", "status": "pending", "serviceDomains": [] },
+        { "id": "product-specific-fulfillment", "name": "Product Specific Fulfillment", "namePt": "Cumprimento Específico de Produto", "status": "pending", "serviceDomains": [] }
+      ]
+    },
+    {
+      "id": "risk-compliance",
+      "name": "Risk & Compliance",
+      "namePt": "Risco e Conformidade",
+      "businessDomains": [
+        { "id": "bank-portfolio-treasury", "name": "Bank Portfolio and Treasury", "namePt": "Portfólio Bancário e Tesouraria", "status": "pending", "serviceDomains": [] },
+        { "id": "business-analysis", "name": "Business Analysis", "namePt": "Análise de Negócio", "status": "pending", "serviceDomains": [] },
+        { "id": "regulations-compliance", "name": "Regulations and Compliance", "namePt": "Regulação e Conformidade", "status": "pending", "serviceDomains": [] },
+        { "id": "models", "name": "Models", "namePt": "Modelos", "status": "pending", "serviceDomains": [] }
+      ]
+    },
+    {
+      "id": "business-support",
+      "name": "Business Support",
+      "namePt": "Suporte ao Negócio",
+      "note": "Agrupamento de menor confiança (baseado em planilha BIAN v9.1); validar contra o portal oficial v14 antes de citar no TCC.",
+      "businessDomains": [
+        { "id": "business-direction", "name": "Business Direction", "namePt": "Direção do Negócio", "status": "pending", "serviceDomains": [] },
+        { "id": "business-command-control", "name": "Business Command and Control", "namePt": "Comando e Controle do Negócio", "status": "pending", "serviceDomains": [] },
+        { "id": "human-resource-management", "name": "Human Resource Management", "namePt": "Gestão de Recursos Humanos", "status": "pending", "serviceDomains": [] },
+        { "id": "enterprise-services", "name": "Enterprise Services (Non-IT/Non-HR)", "namePt": "Serviços Corporativos", "status": "pending", "serviceDomains": [] },
+        { "id": "business-unit-management", "name": "Business Unit Management", "namePt": "Gestão de Unidades de Negócio", "status": "pending", "serviceDomains": [] },
+        { "id": "it-management", "name": "IT Management", "namePt": "Gestão de TI", "status": "pending", "serviceDomains": [] }
+      ]
+    }
+  ]
+}

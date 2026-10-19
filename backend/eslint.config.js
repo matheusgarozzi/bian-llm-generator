@@ -16,6 +16,7 @@ module.exports = [
       globals: {
         console: 'readonly',
         process: 'readonly',
+        __dirname: 'readonly',
         AbortController: 'readonly',
         AbortSignal: 'readonly',
         fetch: 'readonly',

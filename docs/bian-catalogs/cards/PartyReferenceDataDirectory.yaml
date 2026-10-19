@@ -1,0 +1,60 @@
+# Domain card gerado por backend/scripts/condensar-catalogo.ts a partir de oas3/PartyReferenceDataDirectory.yaml.
+# Não edite à mão: rode "npm run catalogo:condensar" no backend.
+service_domain: PartyReferenceDataDirectory
+control_record: PartyReferenceDataDirectoryEntry
+descricao: This service domain maintains a range of party reference information covering aspects including general reference details, contacts and associations and demographic information
+arquivo_origem: PartyReferenceDataDirectory.yaml
+versao_bian: 14.0.0
+commit_bian: b58bf4c2c300dd018afc084e9bb24b7adaaa3500
+behaviour_qualifiers: [ Associations, BankRelations, Demographics, Reference ]
+schemas:
+  PartyReferenceDataDirectory#/components/schemas/PartyReferenceDataDirectoryEntry:
+    descricao: Capture and maintain reference information about some type of entitity within Party Reference Data Directory.
+    campos:
+      PartyReference: Party
+      DirectoryEntryDateType: Directoryentrydatetypevalues
+      DirectoryEntryDate: Datetime
+      PartyType: Partytypevalues
+  PartyReferenceDataDirectory#/components/schemas/Party:
+    campos:
+      PartyName: Name
+      PartyType: Partytypevalues
+      PartyDateTime: Datetime
+      PartyIdentification: Partyidentification
+      PartyLegalStructureType: Partylegalstructuretypevalues
+      PartyActivityIndicator: Industrycode
+  PartyReferenceDataDirectory#/components/schemas/Directoryentrydatetypevalues:
+    enum: [ OpenDate, RefreshDate ]
+  PartyReferenceDataDirectory#/components/schemas/Datetime:
+    campos:
+      DateTimeContent: string(Text) — The particular date and time point in the progression of time
+      TimeZoneCode: string(Text) — The time zone to which the date time refers.
+      DaylightSavingIndicator: string(Text)
+      DateTimeType: Datetimetypevalues
+  PartyReferenceDataDirectory#/components/schemas/Partytypevalues:
+    enum: [ Person, Organisation ]
+  PartyReferenceDataDirectory#/components/schemas/Name:
+    descricao: Name (label) of the location. (ISO20022)
+    campos:
+      Name: string(DataType) — A name is a word or phrase that constitutes the distinctive designation of a person, place, thing or concept. (UN/CEFAT)
+  PartyReferenceDataDirectory#/components/schemas/Partyidentification:
+    campos:
+      PartyIdentificationType: Partyidentificationtypevalues
+      PartyIdentification: Identifier
+  PartyReferenceDataDirectory#/components/schemas/Partylegalstructuretypevalues:
+    enum: [ Individual, CommunityInterestCompany, CharitableIncorporatedOrganisation, Co-Operative, Charity, GeneralPartnership, LimitedLiabilityPartnership, ScottishLimitedPartnership, LimitedPartnership, PrivateLimitedCompany, PublicLimitedCompany, Sole(SoleTrader) ]
+  PartyReferenceDataDirectory#/components/schemas/Industrycode:
+    descricao: Economical activity of Party (ISO20022)
+    campos:
+      Industrycode: string(DataType) — Code to identify economic activities by ISIC (United Nations International Standard Industrial Classification of all Economic Activities).
+  PartyReferenceDataDirectory#/components/schemas/Datetimetypevalues:
+    enum: [ MaturityDate, InitiatedDate, RequestedDate, ExecutedDate, OpenDate, CloseDate, ExpiryDate, EffectiveDate, CreatingDate, ActivationDate, DeactivationDate, BlockingDate, SendingDate, ValidFromDate, ValidToDate, ReceivingDate, SigningDate, DueDate, ValueDate, FulfillmentDate, EntryDate ]
+  PartyReferenceDataDirectory#/components/schemas/Partyidentificationtypevalues:
+    enum: [ Taxidentificationnumber, Nationalregistrationnumber, Registrationauthorityidentification, LEI(LegalEntityIdentifier), Alienregistrationnumber, Passportnumber, Taxexemptidentificationnumber, Corporateidentification, Driverlicensenumber, Foreigninvestmentidentitynumber, Socialsecuritynumber, Identitycardnumber, Concat, Nationalregistrationidentificationnumber ]
+  PartyReferenceDataDirectory#/components/schemas/Identifier:
+    campos:
+      IdentifierValue: string(Value) — tThe actual unique code or number (e.g., passport number, drivers license number).
+      IdentifierIssuerReference: Involvedparty
+      IdentifierStartDate: Datetime
+      IdentifierEndDate: Datetime
+tipos_nao_expandidos: [ PartyReferenceDataDirectory#/components/schemas/Involvedparty ]
