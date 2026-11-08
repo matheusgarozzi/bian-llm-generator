@@ -1,5 +1,9 @@
 # bian-llm-generator
 
+> **Repositório de integração do TCC.** Cópia de trabalho de [JoaoVitorFranzedoCarmo/bian-llm-generator](https://github.com/JoaoVitorFranzedoCarmo/bian-llm-generator) com o validador CONF-01 a CONF-07 e a geração real do modelo formal (`POST /api/gerar`). Depois de validado aqui, o conteúdo volta ao repositório original por pull request.
+>
+> **Protótipo navegável:** https://matheusgarozzi.github.io/bian-llm-generator/prototipo/
+
 Gerador de Aplicações Guiado por Arquitetura de Referência utilizando LLM.
 
 TCC — Gerador de código guiado pela arquitetura de referência BIAN, usando LLM para propor o desenho de solução e um validador determinístico (gatekeeper) para garantir conformidade com o modelo formal.
