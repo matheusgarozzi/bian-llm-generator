@@ -4,6 +4,7 @@ import cors from 'cors';
 import { criarCatalogoController } from './controllers/catalogo.controller';
 import { criarChatController } from './controllers/chat.controller';
 import { criarGenerateController } from './controllers/generate.controller';
+import { criarGerarController } from './controllers/gerar.controller';
 import { criarPromptPreviewController } from './controllers/prompt.controller';
 import type { LLMConfig } from './llm';
 
@@ -20,6 +21,7 @@ export function criarApp(config?: LLMConfig) {
 
   app.post('/api/chat', criarChatController(config));
   app.post('/api/generate', criarGenerateController());
+  app.post('/api/gerar', criarGerarController());
   app.get('/api/catalogo/service-domains', criarCatalogoController());
   app.post('/api/prompt/preview', criarPromptPreviewController());
 

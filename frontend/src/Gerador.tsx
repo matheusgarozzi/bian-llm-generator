@@ -49,10 +49,33 @@ interface EntradaEstruturada {
   hash: string;
 }
 
+interface Violacao {
+  regra: string;
+  caminho: string;
+  descricao: string;
+  acaoEsperada: string;
+}
+
+interface Tentativa {
+  numero: number;
+  tokensEstimados: number;
+  duracaoMs: number;
+  relatorio: { aprovado: boolean; violacoes: Violacao[]; regrasAplicadas: string[] };
+}
+
+// Resposta de POST /api/gerar (UC03 + UC04).
+interface ResultadoGeracao {
+  entrada: EntradaEstruturada;
+  status: 'CONCLUIDA' | 'FALHA_VALIDACAO' | 'FALHA_INFRA';
+  modelo: Record<string, unknown> | null;
+  tentativas: Tentativa[];
+  erro?: string;
+}
+
 type Envio =
   | { estado: 'parado' }
   | { estado: 'enviando' }
-  | { estado: 'ok'; resultado: EntradaEstruturada }
+  | { estado: 'ok'; resultado: ResultadoGeracao }
   | { estado: 'erro'; problemas: string[] };
 
 // Agrupa por Business Domain mantendo a ordem do catálogo.
@@ -170,7 +193,7 @@ export function Gerador() {
     if (!catalogo) return;
     setEnvio({ estado: 'enviando' });
     try {
-      const resposta = await fetch('/api/generate', {
+      const resposta = await fetch('/api/gerar', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(
@@ -178,8 +201,8 @@ export function Gerador() {
         ),
       });
       const corpo = await resposta.json();
-      if (resposta.ok) {
-        setEnvio({ estado: 'ok', resultado: corpo as EntradaEstruturada });
+      if (resposta.ok || corpo.status === 'FALHA_INFRA') {
+        setEnvio({ estado: 'ok', resultado: corpo as ResultadoGeracao });
       } else {
         setEnvio({ estado: 'erro', problemas: corpo.problemas ?? [corpo.erro] });
       }
@@ -310,7 +333,7 @@ export function Gerador() {
 
         <div className="acoes">
           <button type="submit" disabled={selecionados.length === 0 || envio.estado === 'enviando'}>
-            {envio.estado === 'enviando' ? 'Enviando…' : 'Gerar'}
+            {envio.estado === 'enviando' ? 'Gerando modelo formal com o LLM…' : 'Gerar modelo formal'}
           </button>
         </div>
 
@@ -325,24 +348,68 @@ export function Gerador() {
           </div>
         )}
 
-        {envio.estado === 'ok' && (
-          <div className="resultado">
-            <p>Entrada aceita. Domínios na ordem canônica do catálogo:</p>
-            <ol>
-              {envio.resultado.serviceDomains.map((sd) => (
-                <li key={sd.id}>
-                  <strong>{sd.nome}</strong>, control record <code>{sd.controlRecord}</code>
-                </li>
-              ))}
-            </ol>
-            <details>
-              <summary>Estrutura enviada ao motor de prompt</summary>
-              <pre>{JSON.stringify(envio.resultado, null, 2)}</pre>
-            </details>
-          </div>
-        )}
+        {envio.estado === 'ok' && <Resultado resultado={envio.resultado} />}
       </form>
       <PainelPrompt previa={selecionados.length === 0 ? { estado: 'vazio' } : previa} />
+    </div>
+  );
+}
+
+const TITULO_STATUS = {
+  CONCLUIDA: 'Modelo formal aprovado pelo validador',
+  FALHA_VALIDACAO: 'Modelo reprovado após 3 tentativas',
+  FALHA_INFRA: 'Falha ao falar com o LLM',
+} as const;
+
+// Resultado da geração: status, uma linha por tentativa com as violações do gatekeeper e o JSON.
+function Resultado({ resultado }: { resultado: ResultadoGeracao }) {
+  const baixar = () => {
+    const url = URL.createObjectURL(
+      new Blob([JSON.stringify(resultado.modelo, null, 2)], { type: 'application/json' }),
+    );
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'modelo-formal.json';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+  return (
+    <div className={`resultado status-${resultado.status.toLowerCase()}`}>
+      <h3>{TITULO_STATUS[resultado.status]}</h3>
+      {resultado.erro && <p className="erro">{resultado.erro}</p>}
+      <ol className="tentativas">
+        {resultado.tentativas.map((t) => (
+          <li key={t.numero}>
+            <strong>
+              Tentativa {t.numero}: {t.relatorio.aprovado ? 'aprovada' : 'reprovada'}
+            </strong>{' '}
+            <small>
+              ({(t.duracaoMs / 1000).toFixed(1)} s, ~{t.tokensEstimados.toLocaleString('pt-BR')}{' '}
+              tokens; regras {t.relatorio.regrasAplicadas.join(', ')})
+            </small>
+            {t.relatorio.violacoes.length > 0 && (
+              <ul>
+                {t.relatorio.violacoes.map((v, i) => (
+                  <li key={i}>
+                    <code>{v.regra}</code> {v.descricao} {v.caminho && <code>{v.caminho}</code>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ol>
+      {resultado.modelo && (
+        <details open>
+          <summary>
+            Modelo formal gerado{' '}
+            <button type="button" onClick={baixar}>
+              Baixar JSON
+            </button>
+          </summary>
+          <pre>{JSON.stringify(resultado.modelo, null, 2)}</pre>
+        </details>
+      )}
     </div>
   );
 }

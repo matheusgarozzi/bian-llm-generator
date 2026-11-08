@@ -32,6 +32,8 @@ export function lerDomainCard(serviceDomain: string): string {
     }
     card = fs
       .readFileSync(caminho, 'utf8')
+      // Checkout no Windows (core.autocrlf) troca as quebras de linha por CRLF.
+      .replace(/\r\n/g, '\n')
       .split('\n')
       .filter((linha) => !linha.startsWith('#'))
       .join('\n')

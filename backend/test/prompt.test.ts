@@ -15,7 +15,8 @@ import {
 } from '../src/prompt-engine/modelo-formal';
 
 const DIR_CARDS = path.resolve(__dirname, '../../docs/bian-catalogs/cards');
-const lerCard = (sd: string) => fs.readFileSync(path.join(DIR_CARDS, `${sd}.yaml`), 'utf8');
+const lerCard = (sd: string) =>
+  fs.readFileSync(path.join(DIR_CARDS, `${sd}.yaml`), 'utf8').replace(/\r\n/g, '\n');
 
 function entrada(sobrescrever: Record<string, unknown> = {}) {
   return {
