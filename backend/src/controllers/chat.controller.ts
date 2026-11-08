@@ -2,7 +2,7 @@
 import { safeValidateUIMessages } from 'ai';
 import type { Request, Response } from 'express';
 import { carregarConfigLLM, conversar, traduzirErro, type LLMConfig } from '../llm';
-import { PROMPT_SISTEMA_CHAT } from '../prompt-engine/chat';
+import { montarPromptSistemaChat } from '../prompt-engine/chat';
 
 export function criarChatController(config: LLMConfig = carregarConfigLLM()) {
   return async (req: Request, res: Response): Promise<void> => {
@@ -19,7 +19,7 @@ export function criarChatController(config: LLMConfig = carregarConfigLLM()) {
     try {
       const resultado = await conversar({
         mensagens: validacao.data,
-        system: PROMPT_SISTEMA_CHAT,
+        system: montarPromptSistemaChat(),
         config,
         abortSignal: cancelamento.signal,
       });

@@ -1,6 +1,8 @@
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // O histórico fica só na memória do navegador: recarregar a página começa uma conversa nova.
 const transporte = new DefaultChatTransport({ api: '/api/chat' });
@@ -22,7 +24,14 @@ function Mensagem({ mensagem }: { mensagem: UIMessage }) {
           <p>{raciocinio}</p>
         </details>
       )}
-      {texto && <p className="texto">{texto}</p>}
+      {texto &&
+        (mensagem.role === 'assistant' ? (
+          <div className="texto markdown">
+            <Markdown remarkPlugins={[remarkGfm]}>{texto}</Markdown>
+          </div>
+        ) : (
+          <p className="texto">{texto}</p>
+        ))}
     </div>
   );
 }

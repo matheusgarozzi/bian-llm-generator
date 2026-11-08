@@ -1,4 +1,5 @@
 // Testa a rota POST /api/chat contra um servidor falso compatível com OpenAI (streaming SSE).
+import { montarPromptSistemaChat } from '../src/prompt-engine/chat';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
@@ -144,4 +145,13 @@ describe('POST /api/chat', () => {
     assert.ok(erro, 'esperava um evento de erro no stream');
     assert.match(String(erro.errorText), /Não foi possível falar com o LLM/);
   });
+});
+
+it('o prompt do chat traz o catálogo real e proíbe inventar operações', () => {
+  const prompt = montarPromptSistemaChat();
+  assert.match(prompt, /Service Domain: PaymentRail/);
+  assert.match(prompt, /Control Record: PaymentRailOperatingSession/);
+  assert.match(prompt, /PaymentRailOperatingSessionStatus/);
+  assert.match(prompt, /Service Operations/);
+  assert.equal(prompt.includes('undefined'), false);
 });

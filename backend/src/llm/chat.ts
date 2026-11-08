@@ -29,5 +29,8 @@ export async function conversar({
     // O limite vale para o primeiro trecho (inclui carregar o modelo) e para pausas no meio.
     timeout: { firstChunkMs: config.timeoutMs, chunkMs: config.timeoutMs },
     abortSignal,
+    ...(config.reasoningEffort
+      ? { providerOptions: { lmstudio: { reasoningEffort: config.reasoningEffort } } }
+      : {}),
   });
 }
