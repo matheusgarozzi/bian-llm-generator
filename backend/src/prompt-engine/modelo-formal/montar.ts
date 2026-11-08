@@ -36,8 +36,12 @@ const B3 = `<restricoes_tecnicas>
 - Quando uma informação necessária não existir em <domain_cards>, registre em "lacunas" em vez de preencher por conhecimento próprio.
 - Invariantes, transições de estado e cardinalidades são sempre "derivado", porque o catálogo BIAN não declara nenhum dos três.
 - Restrições em <restricoes_usuario> entram como candidatas a invariante derivada, nunca como alteração do catálogo.
+- Máquinas de estado: toda entidade tem exatamente uma, a do seu ciclo de vida, sempre sobre um campo de status. Se o card tiver um enum de status do ciclo de vida da entidade, use em "estados" os valores literais dele, com origem "catalogo" e "fonte" no schema do enum. Se não tiver, derive de 3 a 6 estados com origem "derivado", "fonte" null e uma lacuna. Nunca crie máquina para enums de tipo, de data ou de classificação. As transições devem ligar os estados de um início a estados terminais.
+- Eventos de domínio: declare um evento para cada transição relevante, no mínimo um por entidade, com origem "derivado" e "fonte" null. Em "payload" use apenas nomes de campos do card.
+- Relacionamentos: declare um para cada atributo que referencia outra parte, conta ou domínio. Nunca aponte uma entidade para ela mesma ou para o próprio Service Domain. Em "para" com "externo" = true, use só ids de <service_landscape>; se nenhum servir, registre uma lacuna em vez do relacionamento.
+- Invariantes: declare ao menos uma por entidade e cite nelas apenas campos, schemas e valores presentes no card.
 - Modele apenas os Service Domains de <selecao>. O <service_landscape> é contexto, para situar a seleção e nomear os demais.
-- Entidades: só o control record de cada Service Domain selecionado vira entidade, com "nome" e "control_record" iguais ao control_record do card. Os campos do control record viram os atributos dela. Os demais schemas do card (objetos, enums, Datetime, Identifier etc.) nunca viram entidade: aparecem só como "tipo" de atributo.
+- Entidades: só o control record de cada Service Domain selecionado vira entidade, com "nome" e "control_record" iguais ao control_record do card. Todos os campos do control record viram atributos dela, sem omitir nenhum. Os demais schemas do card (objetos, enums, Datetime, Identifier etc.) nunca viram entidade: aparecem só como "tipo" de atributo.
 - Atributo cujo tipo é um enum do card: copie os valores literais da lista em "valores"; nos demais atributos, "valores" é null.
 - O catálogo não declara campos obrigatórios: use "obrigatorio" null e registre uma única lacuna sobre a obrigatoriedade dos atributos.
 - Cada item de "behaviour_qualifiers" do card entra em "pontos_extensao", com "alvo" = control record e o motivo de não ter schema no card.

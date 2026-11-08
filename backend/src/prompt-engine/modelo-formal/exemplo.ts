@@ -16,6 +16,7 @@ schemas:
     campos:
       StandingOrderDebtorAccount: Account
       StandingOrderFrequency: Frequency
+      StandingOrderStatus: Status
       StandingOrderType: Standingordertypevalues
       NumberofPayments: string(Number) — Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
   StandingOrder#/components/schemas/Standingordertypevalues:
@@ -34,6 +35,30 @@ export const SAIDA_EXEMPLO: ModeloFormal = {
       fonte: FONTE,
       origem: 'catalogo',
       atributos: [
+        {
+          nome: 'StandingOrderDebtorAccount',
+          tipo: 'Account',
+          obrigatorio: null,
+          valores: null,
+          fonte: FONTE,
+          origem: 'catalogo',
+        },
+        {
+          nome: 'StandingOrderFrequency',
+          tipo: 'Frequency',
+          obrigatorio: null,
+          valores: null,
+          fonte: FONTE,
+          origem: 'catalogo',
+        },
+        {
+          nome: 'StandingOrderStatus',
+          tipo: 'Status',
+          obrigatorio: null,
+          valores: null,
+          fonte: FONTE,
+          origem: 'catalogo',
+        },
         {
           nome: 'StandingOrderType',
           tipo: 'Standingordertypevalues',
@@ -64,9 +89,39 @@ export const SAIDA_EXEMPLO: ModeloFormal = {
       origem: 'derivado',
     },
   ],
-  maquinas_estado: [],
-  invariantes: [],
-  eventos_dominio: [],
+  maquinas_estado: [
+    {
+      entidade: 'StandingOrderFacility',
+      campo: 'StandingOrderStatus',
+      estados: ['Registrada', 'Ativa', 'Suspensa', 'Encerrada'],
+      transicoes: [
+        { de: 'Registrada', para: 'Ativa' },
+        { de: 'Ativa', para: 'Suspensa' },
+        { de: 'Suspensa', para: 'Ativa' },
+        { de: 'Ativa', para: 'Encerrada' },
+      ],
+      fonte: null,
+      origem: 'derivado',
+    },
+  ],
+  invariantes: [
+    {
+      id: 'INV01',
+      expressao: 'NumberofPayments deve ser maior que zero quando informado.',
+      entidades_afetadas: ['StandingOrderFacility'],
+      justificativa: 'Uma ordem permanente com sequência definida precisa de ao menos um pagamento.',
+      origem: 'derivado',
+    },
+  ],
+  eventos_dominio: [
+    {
+      nome: 'OrdemPermanenteAtivada',
+      gatilho: 'Transição de Registrada para Ativa',
+      payload: ['StandingOrderStatus', 'StandingOrderFrequency'],
+      fonte: null,
+      origem: 'derivado',
+    },
+  ],
   pontos_extensao: [
     {
       nome: 'StandingOrderPayment',
@@ -75,6 +130,10 @@ export const SAIDA_EXEMPLO: ModeloFormal = {
     },
   ],
   lacunas: [
+    {
+      item: 'Estados do ciclo de vida de StandingOrderStatus',
+      motivo: 'O card não traz enum de status; os estados foram derivados.',
+    },
     {
       item: 'Obrigatoriedade dos atributos',
       motivo: 'O catálogo não declara quais campos são obrigatórios.',
