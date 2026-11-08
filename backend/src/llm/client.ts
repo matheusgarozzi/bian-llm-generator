@@ -40,6 +40,9 @@ export async function gerarObjeto<SCHEMA extends z.ZodType>({
       topP: config.topP,
       maxRetries: config.maxRetries,
       timeout: config.timeoutMs,
+      ...(config.reasoningEffort
+        ? { providerOptions: { lmstudio: { reasoningEffort: config.reasoningEffort } } }
+        : {}),
     });
     return output as z.infer<SCHEMA>;
   } catch (erro) {

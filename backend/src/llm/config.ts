@@ -11,6 +11,9 @@ export interface LLMConfig {
   topP: number;
   timeoutMs: number;
   maxRetries: number;
+  // reasoning_effort do LM Studio. "none" desliga o raciocínio do Qwen 3.5, que sem isso gasta a
+  // resposta pensando e devolve o conteúdo vazio quando a saída é restrita a um schema.
+  reasoningEffort?: string;
 }
 
 function numeroDoAmbiente(nome: string, padrao: number): number {
@@ -33,5 +36,6 @@ export function carregarConfigLLM(): LLMConfig {
     topP: numeroDoAmbiente('LLM_TOP_P', 1),
     timeoutMs: numeroDoAmbiente('LLM_TIMEOUT_MS', 120_000),
     maxRetries: numeroDoAmbiente('LLM_MAX_RETRIES', 1),
+    reasoningEffort: (process.env.LLM_REASONING_EFFORT ?? 'none').trim() || undefined,
   };
 }
