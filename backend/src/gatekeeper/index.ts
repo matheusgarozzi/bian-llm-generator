@@ -176,11 +176,14 @@ export function validarModeloFormal(saida: unknown, indice: IndiceCatalogo): Rel
       if (atributo.origem === 'catalogo' && fonteOk && atributo.fonte) {
         const campos = indice.camposPorFonte.get(atributo.fonte);
         if (campos && !campos.has(atributo.nome)) {
+          const schemaQueDeclara = entidade.fonte && indice.camposPorFonte.get(entidade.fonte)?.has(atributo.nome) ? entidade.fonte : null;
           v.push({
             regra: 'CONF-05',
             caminho: `${ca}.nome`,
             descricao: `O campo "${atributo.nome}" não existe em ${atributo.fonte}, mas está marcado como catalogo`,
-            acaoEsperada: 'Usar o nome literal do campo do card ou marcar o atributo como derivado',
+            acaoEsperada: schemaQueDeclara
+              ? `Manter o nome "${atributo.nome}" e usar em "fonte" o schema que declara o campo: ${schemaQueDeclara}. O schema do enum vale só para os valores`
+              : 'Usar o nome literal do campo do card ou marcar o atributo como derivado',
           });
         }
       }

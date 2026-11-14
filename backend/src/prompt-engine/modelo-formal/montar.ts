@@ -42,7 +42,7 @@ const B3 = `<restricoes_tecnicas>
 - Invariantes: declare ao menos uma por entidade e cite nelas apenas campos, schemas e valores presentes no card.
 - Modele apenas os Service Domains de <selecao>. O <service_landscape> é contexto, para situar a seleção e nomear os demais.
 - Entidades: só o control record de cada Service Domain selecionado vira entidade, com "nome" e "control_record" iguais ao control_record do card. Todos os campos do control record viram atributos dela, sem omitir nenhum. Os demais schemas do card (objetos, enums, Datetime, Identifier etc.) nunca viram entidade: aparecem só como "tipo" de atributo.
-- Atributo cujo tipo é um enum do card: copie os valores literais da lista em "valores"; nos demais atributos, "valores" é null.
+- Atributo cujo tipo é um enum do card: copie os valores literais da lista em "valores" e mantenha em "fonte" o schema que declara o campo (o control record), nunca o schema do enum; nos demais atributos, "valores" é null.
 - O catálogo não declara campos obrigatórios: use "obrigatorio" null e registre uma única lacuna sobre a obrigatoriedade dos atributos.
 - Cada item de "behaviour_qualifiers" do card entra em "pontos_extensao", com "alvo" = control record e o motivo de não ter schema no card.
 - Um tipo listado em "tipos_nao_expandidos" pode ser usado como "tipo" de atributo, mas cada um usado gera uma lacuna, porque seus campos não estão no card.

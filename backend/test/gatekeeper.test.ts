@@ -146,3 +146,13 @@ test('CONF-12: entidade sem invariante', () => {
   m.invariantes = [];
   assert.deepEqual(regras(m), ['CONF-12']);
 });
+
+test('CONF-05: atributo de enum citando o schema do enum recebe a fonte correta no feedback', () => {
+  const m = copia();
+  const attr = m.entidades[0].atributos.find((a) => a.valores)!;
+  const schemaEnum = [...indiceSO.fontes].find((f) => f !== m.entidades[0].fonte && (indiceSO.camposPorFonte.get(f)?.size ?? 0) === 0)!;
+  attr.fonte = schemaEnum;
+  const v = validarModeloFormal(m, indiceSO).violacoes.find((x) => x.regra === 'CONF-05');
+  assert.ok(v);
+  assert.ok(v.acaoEsperada.includes(m.entidades[0].fonte!));
+});
