@@ -1,0 +1,204 @@
+{
+ "entrada": {
+  "arquitetura": "BIAN",
+  "versao": "14.0.0",
+  "serviceDomains": [
+   {
+    "id": "PartyReferenceDataDirectory",
+    "nome": "Party Reference Data Directory",
+    "controlRecord": "PartyReferenceDataDirectoryEntry",
+    "arquivoOrigem": "PartyReferenceDataDirectory.yaml"
+   }
+  ],
+  "gerarFrontend": false,
+  "restricoes": [],
+  "hash": "9f0817549396d086136e0c00c790bbde264e0632a562b3626db75ad1449245b8"
+ },
+ "status": "FALHA_INFRA",
+ "modelo": null,
+ "tentativas": [
+  {
+   "numero": 1,
+   "tokensEstimados": 9846,
+   "duracaoMs": 691646,
+   "modelo": {
+    "analise": "O Service Domain selecionado é 'PartyReferenceDataDirectory'. O Control Record correspondente no card é 'PartyReferenceDataDirectoryEntry', que vira a única entidade principal. Os schemas detalhados no card (Party, Directoryentrydatetypevalues, Datetime, Partytypevalues, Name, Partyidentification, Partylegalstructuretypevalues, Industrycode, Datetimetypevalues, Partyidentificationtypevalues, Identifier) são usados como tipos de atributo da entidade raiz ou como enums para campos específicos. O schema 'PartyReferenceDataDirectoryEntry' define a estrutura principal. Como o card não declara obrigatoriedade explícita para nenhum campo, todos recebem obrigatorio: null. Não há enums de status de ciclo de vida declarados no card (apenas tipos e datas), portanto a máquina de estado é derivada com base em padrões de gestão de dados de referência. Os behaviour_qualifiers listados (Associations, BankRelations, Demographics, Reference) são pontos de extensão sem schema detalhado no recorte. Não há referências explícitas a outros Service Domains selecionados ou não selecionados nos campos do card, exceto por inferência de contexto (ex: Involvedparty), mas como o card não diz explicitamente qual SD é o alvo, e 'Involvedparty' está em tipos_nao_expandidos, qualquer relação externa deve ser tratada com cuidado ou omitida se não houver fonte clara no card para o destino. A restrição técnica proíbe inventar relacionamentos sem fonte clara no card.",
+    "entidades": [
+     {
+      "nome": "PartyReferenceDataDirectoryEntry",
+      "control_record": "PartyReferenceDataDirectoryEntry",
+      "atributos": [
+       {
+        "nome": "PartyReference",
+        "tipo": "Party",
+        "obrigatorio": null,
+        "valores": null,
+        "fonte": "PartyReferenceDataDirectory#/components/schemas/PartyReferenceDataDirectoryEntry",
+        "origem": "catalogo"
+       },
+       {
+        "nome": "DirectoryEntryDateType",
+        "tipo": "Directoryentrydatetypevalues",
+        "obrigatorio": null,
+        "valores": [
+         "OpenDate",
+         "RefreshDate"
+        ],
+        "fonte": "PartyReferenceDataDirectory#/components/schemas/PartyReferenceDataDirectoryEntry",
+        "origem": "catalogo"
+       },
+       {
+        "nome": "DirectoryEntryDate",
+        "tipo": "Datetime",
+        "obrigatorio": null,
+        "valores": null,
+        "fonte": "PartyReferenceDataDirectory#/components/schemas/PartyReferenceDataDirectoryEntry",
+        "origem": "catalogo"
+       },
+       {
+        "nome": "PartyType",
+        "tipo": "Partytypevalues",
+        "obrigatorio": null,
+        "valores": [
+         "Person",
+         "Organisation"
+        ],
+        "fonte": "PartyReferenceDataDirectory#/components/schemas/PartyReferenceDataDirectoryEntry",
+        "origem": "catalogo"
+       }
+      ],
+      "fonte": "PartyReferenceDataDirectory#/components/schemas/PartyReferenceDataDirectoryEntry",
+      "origem": "catalogo"
+     }
+    ],
+    "relacionamentos": [],
+    "maquinas_estado": [
+     {
+      "entidade": "PartyReferenceDataDirectoryEntry",
+      "campo": "DirectoryEntryDateType",
+      "estados": [
+       "OpenDate",
+       "RefreshDate"
+      ],
+      "transicoes": [
+       {
+        "de": "OpenDate",
+        "para": "RefreshDate"
+       }
+      ],
+      "fonte": null,
+      "origem": "derivado"
+     }
+    ],
+    "invariantes": [
+     {
+      "id": "INV01",
+      "expressao": "DirectoryEntryDate deve ser um valor Datetime válido quando DirectoryEntryDateType for OpenDate ou RefreshDate.",
+      "entidades_afetadas": [
+       "PartyReferenceDataDirectoryEntry"
+      ],
+      "justificativa": "A data de entrada do diretório deve corresponder ao tipo de data declarado para garantir consistência temporal.",
+      "origem": "derivado"
+     },
+     {
+      "id": "INV02",
+      "expressao": "PartyReference não pode ser nulo, pois é o registro principal da parte no diretório.",
+      "entidades_afetadas": [
+       "PartyReferenceDataDirectoryEntry"
+      ],
+      "justificativa": "O propósito do Service Domain é manter dados de referência da parte; sem PartyReference, o registro perde seu significado funcional.",
+      "origem": "derivado"
+     }
+    ],
+    "eventos_dominio": [
+     {
+      "nome": "RegistroDeReferenciaDaParte",
+      "gatilho": "Criação de novo entry no diretório com DirectoryEntryDateType = OpenDate",
+      "payload": [
+       "PartyReference",
+       "DirectoryEntryDate"
+      ],
+      "fonte": null,
+      "origem": "derivado"
+     },
+     {
+      "nome": "AtualizacaoDeReferenciaDaParte",
+      "gatilho": "Atualização de entry existente com DirectoryEntryDateType = RefreshDate",
+      "payload": [
+       "PartyReference",
+       "DirectoryEntryDate"
+      ],
+      "fonte": null,
+      "origem": "derivado"
+     }
+    ],
+    "pontos_extensao": [
+     {
+      "nome": "Associations",
+      "alvo": "PartyReferenceDataDirectoryEntry",
+      "motivo": "Behaviour qualifier declarado no catálogo, sem schema detalhado no card."
+     },
+     {
+      "nome": "BankRelations",
+      "alvo": "PartyReferenceDataDirectoryEntry",
+      "motivo": "Behaviour qualifier declarado no catálogo, sem schema detalhado no card."
+     },
+     {
+      "nome": "Demographics",
+      "alvo": "PartyReferenceDataDirectoryEntry",
+      "motivo": "Behaviour qualifier declarado no catálogo, sem schema detalhado no card."
+     },
+     {
+      "nome": "Reference",
+      "alvo": "PartyReferenceDataDirectoryEntry",
+      "motivo": "Behaviour qualifier declarado no catálogo, sem schema detalhado no card."
+     }
+    ],
+    "lacunas": [
+     {
+      "item": "Obrigatoriedade dos atributos",
+      "motivo": "O catálogo não declara quais campos são obrigatórios."
+     },
+     {
+      "item": "Campos detalhados dentro de schemas como Party, Name, Identifier",
+      "motivo": "Os schemas Party, Name, Identifier e outros estão listados no card com seus campos, mas o control record principal (PartyReferenceDataDirectoryEntry) não os expande; portanto, eles são usados apenas como tipos de atributo, sem decomposição adicional na entidade raiz."
+     },
+     {
+      "item": "Relacionamentos para Involvedparty",
+      "motivo": "O schema Identifier tem um campo IdentifierIssuerReference do tipo Involvedparty, mas este tipo está em 'tipos_nao_expandidos' e o card não especifica qual Service Domain é o alvo dessa referência. Por restrição técnica, não pode ser modelado como relacionamento externo sem fonte clara no card."
+     },
+     {
+      "item": "Máquina de estado completa para ciclo de vida da parte",
+      "motivo": "O card não declara enum de status do ciclo de vida da parte (ex: Active, Inactive, Archived); apenas tipos de data de entrada são declarados. A máquina de estado derivada cobre apenas a transição entre OpenDate e RefreshDate."
+     }
+    ]
+   },
+   "relatorio": {
+    "aprovado": false,
+    "violacoes": [
+     {
+      "regra": "CONF-09",
+      "caminho": "maquinas_estado[0].campo",
+      "descricao": "\"DirectoryEntryDateType\" não é um campo de status, então não representa um ciclo de vida",
+      "acaoEsperada": "Usar máquina de estados só para campos de status, nunca para enums de tipo ou de data"
+     }
+    ],
+    "regrasAplicadas": [
+     "CONF-01",
+     "CONF-02",
+     "CONF-03",
+     "CONF-04",
+     "CONF-05",
+     "CONF-06",
+     "CONF-07",
+     "CONF-08",
+     "CONF-09",
+     "CONF-10",
+     "CONF-11",
+     "CONF-12"
+    ]
+   }
+  }
+ ],
+ "erro": "Não foi possível falar com o LLM em http://localhost:1234/v1 (Bad Request). Verifique se o servidor local do LM Studio está ligado e com o modelo carregado."
+}
